@@ -58,6 +58,13 @@ rangeCharacter.contains("G")
 //i 默认是 let
 for var i in 0...3 {
     i = i + 5;
+//    print(i)
+}
+
+//间隔区间
+let hours = 22
+let inter = 2
+for i in stride(from: 4, to: hours, by: inter){
     print(i)
 }
 
