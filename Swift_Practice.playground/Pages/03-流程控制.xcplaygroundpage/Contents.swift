@@ -65,10 +65,64 @@ for var i in 0...3 {
 let hours = 22
 let inter = 2
 for i in stride(from: 4, to: hours, by: inter){
-    print(i)
+//    print(i)
 }
 
 //搬新家，加油
+//: 5. Swich
+
+//数字、字符串
+var sw_int = 10
+switch sw_int{
+case 1:
+    print("Num is 1")
+    break;
+default:
+    break
+}
+
+
+// 5.1 字符，字符串，符合条件
+var name = "Liubaobao"
+switch name{
+case "Liubaobao","小宝宝":
+    print("wife");
+    fallthrough     //贯穿下一层,并且跳过判断
+//    break;
+case "nic":
+//    print("roommates")
+//    break;
+    fallthrough     //贯穿下一层
+default :
+    break
+}
+
+
+// 5.2 元组匹配
+var tuple_a = (10,12)
+switch tuple_a{
+case (10,_):
+    print("include 10")
+    fallthrough
+case (_,13):
+    print("include 12")
+default:
+    break;
+}
+
+// 5.3 区间匹配
+let num_5_3 = 9
+switch num_5_3{
+case 10...100:
+    print("两位数");
+case 0...9:
+    print("个位数")
+default:
+    break;
+}
+
+
+
 
 //: [Next](@next)
 
