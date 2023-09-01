@@ -124,6 +124,39 @@ default:
 
 //我要每天关心老婆！！！
 
+//value - bonding ： 分配数值
+//print \()
+
+let tuple_e = (10,15)
+switch tuple_e{
+case (let x,0):
+    print("\(x) + 0")
+case (0,let y):
+    print("0 + \(y)")
+case let(x,y):
+    print("\(x) + \(y)");
+default:
+    break;
+}
+//Where ： 给控制加条件
+
+let tuple_f = (7,15)
+switch tuple_f{
+case let(x,y) where x != y:
+    print("\(x) + \(y)");
+default:
+    break;
+}
+
+//标签语句： 断开谁
+out1: for i in 0...5{
+    for j in 0...5{
+        if j == i{
+            continue out1; //可以用break 也可以用 continue
+        }
+        print("(\(i),\(j))")
+    }
+}
 
 //: [Next](@next)
 
