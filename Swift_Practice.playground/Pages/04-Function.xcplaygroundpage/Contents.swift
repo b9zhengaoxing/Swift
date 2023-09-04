@@ -59,6 +59,7 @@ var para3 = parameter3(numbers:1,2,3,4,5,what:"dog")
 
 //：今日早睡
 //:open thedoor
+//: 做好预习
 //: 4. 函数重载
 //: 5. 内联函数
 //: 6. 函数类型
