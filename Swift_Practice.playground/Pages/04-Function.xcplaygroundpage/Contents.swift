@@ -29,15 +29,35 @@ coordnate.y
 coordnate.z
 
 
-//: 3. 参数 ：可改  默认 省略 可变参数 输入输出参数
-    // 3.1 每个参数默认 argument label）以及一个参数名称（parameter name）通常情况下默认两个相等，如果指定 argument label 可以增加可读性，使用_ 可以ignore
+//: 3. 参数 ：参数变迁  默认  可变参数 输入输出参数
+    // 3.1 每个参数默认  argument label）以及一个参数名称（parameter name）通常情况下默认两个相等，如果指定 argument label 可以增加可读性，使用_ 可以ignore
 func parameter1(at time:String,_ doA:String){
     print("\(time) + \(doA)")
 }
 
 parameter1(at: "10:30 PM", "weak up")
 
+    // 3.2 默认参数
+func parameter2(at time:String = "7:00 AM",doA:String = "Game"){
+    print("\(time) + \(doA)")
+}
 
+parameter2()
+parameter2(doA: "work")
+
+    // 3.3 可变参数，每个函数只有一个，可变参数后面标签不能圣罗
+func parameter3(numbers:Int...,what:String = "people") -> (num:Int,what:String){
+    var ret:Int = 0;
+    for num in numbers{
+        ret += num;
+    }
+    return (ret,what);
+}
+
+var para3 = parameter3(numbers:1,2,3,4,5,what:"dog")
+
+
+//：今日早睡
 //: 4. 函数重载
 //: 5. 内联函数
 //: 6. 函数类型
