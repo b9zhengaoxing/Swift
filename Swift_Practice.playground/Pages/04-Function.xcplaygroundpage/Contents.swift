@@ -45,7 +45,7 @@ func parameter2(at time:String = "7:00 AM",doA:String = "Game"){
 parameter2()
 parameter2(doA: "work")
 
-    // 3.3 可变参数，每个函数只有一个，可变参数后面标签不能圣罗
+    // 3.3 可变参数，每个函数只有一个，可变参数后面标签不能省略
 func parameter3(numbers:Int...,what:String = "people") -> (num:Int,what:String){
     var ret:Int = 0;
     for num in numbers{
@@ -55,7 +55,17 @@ func parameter3(numbers:Int...,what:String = "people") -> (num:Int,what:String){
 }
 
 var para3 = parameter3(numbers:1,2,3,4,5,what:"dog")
+para3.num;
+para3.what;
 
+    //print 可变参数
+print(1,2,3,4,5, separator: "-")
+
+var value_34:Int = 10;
+    // 3.4 输入输出参数
+//func parameter34(inout number:Int) -> {
+//
+//}
 
 //：今日早睡
 //:open thedoor
