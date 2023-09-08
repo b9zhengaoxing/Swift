@@ -75,6 +75,8 @@ var tmpB:Int = 20
 parameter34(numberA: &tmpA, numberB: &tmpB)
 print("\(tmpA) + \(tmpB)")
 
+//: 每天至少写一行代码，写一行日记
+
 //：今日早睡
 //:open thedoor
 //: 做好预习
