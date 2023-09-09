@@ -63,9 +63,17 @@ print(1,2,3,4,5, separator: "-")
 
 var value_34:Int = 10;
     // 3.4 输入输出参数
-//func parameter34(inout number:Int) -> {
-//
-//}
+func parameter34(numberA:inout Int, numberB:inout Int ){
+    var tmp:Int = 0;
+    tmp = numberA;
+    numberA = numberB
+    numberB = tmp;
+}
+
+var tmpA:Int = 10
+var tmpB:Int = 20
+parameter34(numberA: &tmpA, numberB: &tmpB)
+print("\(tmpA) + \(tmpB)")
 
 //：今日早睡
 //:open thedoor
