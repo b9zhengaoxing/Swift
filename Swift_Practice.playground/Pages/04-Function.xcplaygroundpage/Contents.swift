@@ -76,6 +76,7 @@ parameter34(numberA: &tmpA, numberB: &tmpB)
 print("\(tmpA) + \(tmpB)")
 
 //: 每天至少写一行代码，写一行日记
+//: 旧伤结束，每次新伤
 
 //：今日早睡
 //:open thedoor
