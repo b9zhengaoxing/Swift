@@ -89,7 +89,8 @@ print("\(tmpA) + \(tmpB)")
 //: 处理，和进行，不是一回事情
 //: 高效休息，提高效率
 //：今日早睡
-//:open thedoor
+//: open thedoor
+//: 每天一顿约会
 //: 做好预习
 //: 4. 函数重载 parameter 数量，命名，是
 
