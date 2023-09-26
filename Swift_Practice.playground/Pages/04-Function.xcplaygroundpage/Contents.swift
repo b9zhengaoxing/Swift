@@ -105,8 +105,8 @@ func overload1(a1:Int,v2:Int)->Int{
     a1 + v2
 }
 
-fun overload1(v1:Int,v2:Double)->{
-    v1 + v2
+func overload1(v1:Int,v2:Double)->Int {
+    v1
 }
 
 //: 5. 内联函数
