@@ -90,7 +90,25 @@ print("\(tmpA) + \(tmpB)")
 //：今日早睡
 //:open thedoor
 //: 做好预习
-//: 4. 函数重载
+//: 4. 函数重载 parameter 数量，命名，是
+func overload1(v1:Int,v2:Int)-> Int{
+    v1 + v2
+}
+
+// num dif
+func overload1(v1:Int,v2:Int,v3:Int)->Int{
+    v1 + v2 + v3
+}
+
+// 标签 dif
+func overload1(a1:Int,v2:Int)->Int{
+    a1 + v2
+}
+
+fun overload1(v1:Int,v2:Double)->{
+    v1 + v2
+}
+
 //: 5. 内联函数
 //: 6. 函数类型
 //: 7. 函数嵌套
