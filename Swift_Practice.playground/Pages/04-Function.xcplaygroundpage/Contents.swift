@@ -86,11 +86,13 @@ print("\(tmpA) + \(tmpB)")
 //: 函数重载，参数问题
 //: 整理思维，整体过一遍
 //: 100% 提高效率
+//: 处理，和进行，不是一回事情
 
 //：今日早睡
 //:open thedoor
 //: 做好预习
 //: 4. 函数重载 parameter 数量，命名，是
+
 func overload1(v1:Int,v2:Int)-> Int{
     v1 + v2
 }
