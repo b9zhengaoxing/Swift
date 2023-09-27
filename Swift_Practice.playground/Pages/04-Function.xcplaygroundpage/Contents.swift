@@ -118,7 +118,40 @@ func overload1(v1:Int,v2:Double)->Int {
 }
 
 //: 5. 内联函数
+//: 是一种优化，可以设置
+
 //: 6. 函数类型
+//6.1 作为变量
+func funType1(v1:Int)->Int{
+    return 10 * v1;
+}
+
+func funType11(v1:Int)->Int{
+    return 10 / v1;
+}
+
+var funType2:(Int)->Int = funType1
+
+funType2(1);
+
+//6.2 作为参数
+func funType2(mathFn:(Int)->Int,v1:Int)->(Int){
+    return mathFn(v1);
+}
+
+funType2(mathFn: funType1, v1: 10);
+
+//6.3 作为返回值
+//func funType3(_ fore:Bool,foreFun:@escaping (Int)->Int,backFun:(Int)->Int)->(Int)->Int{
+//    if(fore){
+//        return foreFun;
+//    }else{
+//        return backFun;
+//    }
+//}
+
+var funType4:(Int)->Int = funType3(true, foreFun: funType1, backFun: funType11)
+
 //: 7. 函数嵌套
 //: 8.
 
