@@ -100,6 +100,7 @@ print("\(tmpA) + \(tmpB)")
 //: 注重过程，用好B站，不依赖录音笔
 //: 不要同时又考虑未来，又考虑现在，just Do it
 //: 4. 函数重载 parameter 数量，命名，是
+//: 人生很多好事会发生
 
 func overload1(v1:Int,v2:Int)-> Int{
     v1 + v2
