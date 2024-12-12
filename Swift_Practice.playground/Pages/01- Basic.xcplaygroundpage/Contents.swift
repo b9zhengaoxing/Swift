@@ -107,9 +107,47 @@ repeat{
     num += 1
 }while num<0
 
-let names = ["lucy","John","william"]
+let names = ["lucy","John","william","max"]
+
+//i 模式是let
 for i in 0...2{
+//    i += 1  'i' is a 'let' constant
     print(names[i])
 }
+
+//可以声明 是var
+for var i in 0..<2{
+    i += 1
+    print("第 \(i) 是 \(names[i])")
+}
+
+//循环三次
+var rage = 0...2
+for _ in rage{
+    print(72)
+}
+
+//区间运算法用在数组上
+for name in names{
+    print(name)
+}
+
+for name in names[...2] {
+    print("range in array \(name)")
+}
+
+//区间类型
+let range1:ClosedRange<Int> = 1...3
+let range2:Range<Int> = 1..<3
+let range3:PartialRangeThrough<Int> = ...5
+
+//带间隔的区间值
+let hours = 11
+let hourInterval = 2
+for tickMark in stride(from:4,through:hours,by:hourInterval){
+    print(tickMark)
+}
+
+
     
     
