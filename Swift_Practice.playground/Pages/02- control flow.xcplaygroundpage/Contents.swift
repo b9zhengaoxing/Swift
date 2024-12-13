@@ -133,6 +133,14 @@ default:
     break
 }
 
+//Label Statement 本质在于跳出循环 jump out loop
+outLooper:for i in 0...100{
+    if i == 0 {
+        print("LabelStatement \(i)")
+        break outLooper
+    }
+}
+
 
 
 
