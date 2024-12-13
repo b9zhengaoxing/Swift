@@ -3,6 +3,5 @@
     <pages>
         <page name='01-注释'/>
         <page name='02-数据类型'/>
-        <page name='04-Function'/>
     </pages>
 </playground>
