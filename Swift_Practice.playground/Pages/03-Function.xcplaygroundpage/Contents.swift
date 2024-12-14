@@ -33,4 +33,21 @@ func sum(_ numbers: Int...) -> Int {
 
 print(sum(1,2,3,4,5,6))
 
+//public func print(_ items: Any..., separator: String = " ", terminator: String = "\n")
+print(1,2,3,4,5,6 , separator: " - " , terminator: "")
 
+//overload
+func sum(_ a:Int , _ b:Int , _ c:Int) -> Int{
+    a + b + c
+}
+print("\n\(sum(1,2,3))")
+
+//Function Type
+//var fn(String) -> String = check
+//var fn:(String)->String = check()
+var fn:(String)->(String,String) = check
+print(fn("在不在"))
+
+//func function
+
+//高阶函数 higher - order - function
