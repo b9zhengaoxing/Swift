@@ -45,9 +45,41 @@ print("\n\(sum(1,2,3))")
 //Function Type
 //var fn(String) -> String = check
 //var fn:(String)->String = check()
-var fn:(String)->(String,String) = check
+typealias funType1 = (String)->(String,String)
+var fn:funType1 = check
 print(fn("在不在"))
+
+//Expected '=' in type alias declaration
+//typealias funType1:(Int)->(Int)
+
+
 
 //func function
 
 //高阶函数 higher - order - function
+//function type
+func functionFun(fun:(Int,Int)->(Int),a:Int,b:Int) -> Int {
+    fun(a,b)
+}
+
+//function type as parameter
+print(functionFun(fun: add, a: 10, b: 11))
+
+
+//nest function
+func functionRet(_ forward:Bool) -> (Int,Int)->(Int) {
+    func funAdd(a:Int,b:Int)->(Int){
+        a + b
+    }
+    
+    func funDelete(a:Int,b:Int)->(Int){
+        a - b
+    }
+    
+    return forward ? funAdd : funDelete
+}
+
+var fn1 = functionRet(false)
+print("函数作为返回值\(fn1(1,2))")
+
+
