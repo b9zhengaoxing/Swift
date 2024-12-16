@@ -1,7 +1,7 @@
 import Foundation
 //默认是let 也只能是
 func add(a:Int,b:Int) -> Int{
-//    a = a + b 'a' is a 'let' constant
+    //    a = a + b 'a' is a 'let' constant
     var c = a + b
     return c
 }

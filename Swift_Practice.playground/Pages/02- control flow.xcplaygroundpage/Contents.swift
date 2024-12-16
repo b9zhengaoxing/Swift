@@ -7,8 +7,8 @@ if age > 25 {}
 
 //没有++ --
 while age>25 {
-//    Expected expression after operator
-//    age --
+    //    Expected expression after operator
+    //    age --
     age -= 1
 }
 
@@ -22,7 +22,7 @@ let names = ["lucy","John","william","max"]
 
 //i 模式是let
 for i in 0...2{
-//    i += 1  'i' is a 'let' constant
+    //    i += 1  'i' is a 'let' constant
     print(names[i])
 }
 
@@ -64,7 +64,7 @@ for tickMark in stride(from:4,through:hours,by:hourInterval){
 //switch names{
 //case names[0]: Expression pattern of type 'String' cannot match values of type '[String]'
 //case "williom": Expression pattern of type 'String' cannot match values of type '[String]'
-    
+
 switch hours{
 case hours:
     fallthrough //只穿一个
@@ -73,7 +73,7 @@ case 2:
     print(2)
 default:
     print("others")
-//    Switch must be exhaustive  需要加 default 非必要不加 break
+    //    Switch must be exhaustive  需要加 default 非必要不加 break
 }
 
 enum Answer{
@@ -145,6 +145,6 @@ outLooper:for i in 0...100{
 
 
 
-    
-    
+
+
 
