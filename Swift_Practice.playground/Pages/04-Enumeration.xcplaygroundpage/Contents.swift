@@ -31,6 +31,14 @@ default:
     break
 }
 
+//多个let 灵活位置 提取关联值绑定到局部变量
+switch b{
+case .date(let year,let month,let day):
+    print("\(year) \(month) \(day)")
+default :
+    break
+}
+
 
 enum Response {
     case success(Message:String)
@@ -39,22 +47,16 @@ enum Response {
 
 var result1 = Response.success(Message: "hello world")
 var result2 = Response.error(code: 404, description: "未找到网页")
-//
-//swtch result1{
-//case let  .success(Message: i):
-//    print(i)
-////case let .error(let code, let description):
-////    print("\(code) : \(description)")
-//default:
-//    break
-//}
 
 //
-switch result1 {
-case let .success(M: i):
-    print(i)
-case let .error(code: a, description: b):
-    print("\(a) : \(b)")
+switch result1{
+case let .success(message):
+    print(message)
+//case let .error(let code, let description):
+//    print("\(code) : \(description)")
 default:
     break
 }
+
+
+
