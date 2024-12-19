@@ -12,7 +12,6 @@ var dirct = Direction.north
 dirct = .west
 print (dirct)
 
-
 //Associate values
 enum Game {
     case team(String)
@@ -59,4 +58,32 @@ default:
 }
 
 
+enum Password {
+    case number(Int,Int,Int,Int)
+    case gesture(String)
+}
 
+var passNum = Password.number(10, 9, 8, 7)
+
+switch passNum{
+case let .number(a,b,c,d):
+    print("a \(a),b \(b),c \(c),d \(d)")
+default:
+    break
+}
+
+
+//rawValue
+enum PokeSuit:String{
+    case spade = "♠"
+    case heart = "红心"
+}
+let poke1 = PokeSuit.spade
+print(poke1)
+print(poke1.rawValue)
+
+enum Season:Int{
+    case spring,summer,autumn,winter
+}
+print(Season.spring)
+print(Season.spring.rawValue)
