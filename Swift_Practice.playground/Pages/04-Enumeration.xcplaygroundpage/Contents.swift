@@ -87,3 +87,18 @@ enum Season:Int{
 }
 print(Season.spring)
 print(Season.spring.rawValue)
+
+
+// recursive Enumeration
+// indirect enum  —— 有整个的，有单个的
+
+indirect enum ArithExr{
+    case number(Int)
+    case sum(ArithExr,ArithExr)
+}
+
+enum Arith2{
+    case number(Int)
+    indirect case sum(Arith2,Arith2)
+}
+
