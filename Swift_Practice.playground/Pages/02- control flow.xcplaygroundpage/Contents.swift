@@ -5,7 +5,7 @@
 var age = 25
 if age > 25 {}
 
-//没有++ --
+//Swift 取消了 ++ --
 while age>25 {
     //    Expected expression after operator
     //    age --

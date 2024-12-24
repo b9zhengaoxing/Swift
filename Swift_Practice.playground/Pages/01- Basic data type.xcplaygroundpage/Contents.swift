@@ -17,7 +17,7 @@ view.backgroundColor = UIColor.blue
 //显示实时视图
 PlaygroundPage.current.liveView = view
 
-//不要求编译时期确定变量 常量 要求在使用前确定数值，
+//不要求编译时期确定变量 常量 要求在使用前确定数值
 
 //常量
 let age1 = 10
