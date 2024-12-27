@@ -41,4 +41,35 @@ if var value = number{
     print("binding 失败")
 }
 
+enum Season:Int{
+    case spring,summer,autumn,winter
+}
 
+//rawValue 返回了？
+if var value = Season(rawValue:1){
+    print(value)
+}else{
+    print("binding nil")
+}
+
+if let value = Int("10"){//return ？
+    print(value)
+}else{
+    print("binding nil")
+}
+
+
+var a:Int? = 1
+print(a)
+var b:Int? = 2
+//Cannot use optional chaining on non-optional value of type 'Int'
+//let c = a??b
+let c = a ?? b //至少要有两个空格
+print(c)
+
+a = nil
+let d = a ?? c
+print(d)
+
+let e = d ?? 10
+print(e)
