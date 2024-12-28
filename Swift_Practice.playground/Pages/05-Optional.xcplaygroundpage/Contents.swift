@@ -71,5 +71,19 @@ a = nil
 let d = a ?? c
 print(d)
 
-let e = d ?? 10
+let e = d ?? 10 //非可选项，自动解包
 print(e)
+
+let f = a ?? b ?? 10
+print(f)
+
+if let value = a ?? b{ // !nil || !nil
+    print(value)
+}else{
+    print("nil")
+}
+
+if let value = c,let value2 = b{
+    print("\(value) + \(value2)")
+}
+
