@@ -83,7 +83,26 @@ if let value = a ?? b{ // !nil || !nil
     print("nil")
 }
 
-if let value = c,let value2 = b{
+a = Int(12)
+print(a)
+if let value = a,let value2 = b{
     print("\(value) + \(value2)")
 }
+
+func login(_ info:[String:String]) -> String{
+    let userName:String
+    let a1 = info["userName"] //字典 按键值 读取 返回Optional
+    print(a1)
+    if let value = info["userName"]{
+        userName = value
+    }else{
+        userName = "default"
+    }
+    return userName
+}
+
+let infoDic = ["userName":"刘宝宝","password":"123456"]
+print(login(infoDic))
+
+
 
