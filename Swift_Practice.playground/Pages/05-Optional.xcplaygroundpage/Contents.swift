@@ -91,8 +91,13 @@ if let value = a,let value2 = b{
 
 func login(_ info:[String:String]) -> String{
     let userName:String
+
     let a1 = info["userName"] //字典 按键值 读取 返回Optional
     print(a1)
+    guard a1 != nil else{
+        return ""
+    }
+    
     if let value = info["userName"]{
         userName = value
     }else{
@@ -104,5 +109,32 @@ func login(_ info:[String:String]) -> String{
 let infoDic = ["userName":"刘宝宝","password":"123456"]
 print(login(infoDic))
 
+//implicitly unwrapped Optional 隐解
+let implictInt:Int! = 10
+let 哈哈哈 = implictInt
+print(implictInt)
 
+//消除编译器警告
+print(implictInt!)
+print(String(describing: implictInt))
+print(implictInt ?? 0)
+
+//let implictInt1:Int! = nil
+//let 哈哈哈1:Int = implictInt  Fatal error: Unexpectedly found nil while implicitly unwrapping an Optional value
+
+//关于 Optional Binding 并不返回 Boolen 但是成功失败决定了进入哪个分支
+//guard 条件 else {continue break return }
+
+
+//多重可选项
+var num1:Int? = 10 //Int? 10
+var num2:Int?? = num1 //Int?? Int? 10
+var num3:Int?? = 10 //Int?? Int? 10
+print("多重可选项目\(num2 == num3)")
+
+
+var num11:Int? = nil  //Int? nil
+var num12:Int?? = num11  //Int?? Int? nil
+var num13:Int?? = nil  //Int?? nil
+print("多重可选项nil \(num11 == num13)")
 
