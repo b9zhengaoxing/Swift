@@ -133,7 +133,7 @@ Fn2(4)
 Fn1(5)
 Fn2(6)
 
-
+//对于这个练习的理解：closure capture 基本算是想象成一个类的实例
 typealias FnNew = (Int)->(Int,Int)
 func getFuns() -> (FnNew,FnNew){
     var num1 = 0
@@ -159,8 +159,38 @@ m(4)
 p(3)
 m(2)
 
+// escape closure VS non - escape closures can escape 调用，  asynchronous as an completion handle
+
+var completionHanders:[()->Void] = []
+
+func someFunctionWithEscapingClosureHander(completionHandler:@escaping ()->Void){
+    completionHanders.append (completionHandler)
+}
+
+func somFuntionWithNoneEscapingClosure(closure: ()-> Void){
+//    completionHanders.append(closure)  converting non-escaping parameter 'closure' to generic parameter 'Element' may allow it to escape
+    closure()
+}
 
 
+class SomeClass {
+    var x = 0
+    func doSomething(){
+        somFuntionWithNoneEscapingClosure {
+            x = 20 //显示调用 小心循环引用问题
+        }
+        someFunctionWithEscapingClosureHander {
+            x = 30
+        }
+    }
+}
+
+var instance = SomeClass()
+instance.doSomething()
+print(instance.x)
+
+completionHanders.first?()
+print(instance.x)
 
 
 
