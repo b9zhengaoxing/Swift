@@ -179,8 +179,13 @@ class SomeClass {
         somFuntionWithNoneEscapingClosure {
             x = 20 //显示调用 小心循环引用问题
         }
-        someFunctionWithEscapingClosureHander {
-            x = 30
+        someFunctionWithEscapingClosureHander { [weak self] in //弱引用，解决循环引用
+            guard let self = self else{return}
+            self.x = 30
+        }
+        
+        someFunctionWithEscapingClosureHander { [self] in//强引用
+            self.x = 30
         }
     }
 }
