@@ -177,9 +177,10 @@ class SomeClass {
     var x = 0
     func doSomething(){
         somFuntionWithNoneEscapingClosure {
-            x = 20 //显示调用 小心循环引用问题
+            x = 20
         }
         someFunctionWithEscapingClosureHander { [weak self] in //弱引用，解决循环引用
+            //显示调用 小心循环引用问题
             guard let self = self else{return}
             self.x = 30
         }
@@ -197,7 +198,33 @@ print(instance.x)
 completionHanders.first?()
 print(instance.x)
 
+//autoclosures
+//0. 只接受 （） 参数
+//1. auto —— 用小括号 {} 包装
+//2. delay —— 所有的Closure 都是闭包都delay
 
+var nameList = ["阿大","阿二","阿三","阿四","阿五"]
+print(nameList)
 
+//封装了一个Closure
+let customerProvider = { nameList.remove(at: 0)}
+print(nameList.count)
 
+print("Now serving \(customerProvider())")
+print(nameList.count)
 
+//customer 外部的 customerPro 这个是内部的
+func serve(customer customerProvider:()->String){
+    print("Now serving \(customerProvider())")
+}
+
+serve(customer: {nameList.remove(at: 0)})
+
+//实参标签（Argument Label）
+//参数名称（Parameter Name）：用于函数内部，标识传入的值。Expected
+//func serve1(customer @autoClosure custmoerProvider:()->String ){ Expected parameter name followed by ':'
+func serve1(customer  custmoerProvider: @autoclosure ()->String ){
+    print("Now serving \(customerProvider())")
+}
+
+serve1(customer: (nameList.remove(at: 0)))
