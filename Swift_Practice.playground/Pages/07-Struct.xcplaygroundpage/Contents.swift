@@ -40,6 +40,23 @@ struct Point1 {
 //    var y:Int
 //}
 
+class Point2{
+    var x:Int
+    var y:Int
+    
+    init(x: Int, y: Int) {
+        self.x = x
+        self.y = y
+    }
+}
+
+let point_struct = Point1(x: 10, y: 0)
+let point_class = Point2(x: 0, y: 10)
+
+point_class.x = 10
+//point_struct.x = 10 Cannot assign to property: 'point_struct' is a 'let' constant
+
+
 
 // struct enum is value type class referecence type
 
