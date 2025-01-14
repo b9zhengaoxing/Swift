@@ -57,6 +57,16 @@ point_class.x = 10
 //point_struct.x = 10 Cannot assign to property: 'point_struct' is a 'let' constant
 
 
-
 // struct enum is value type class referecence type
 
+//nested type
+struct Poker {
+    enum Suit: Character {
+        case spades = "♠" , hearts = "♥"
+    }
+    enum Rank:Int {
+        case two = 2, three,four
+    }
+}
+
+print(Poker.Suit.hearts)
