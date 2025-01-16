@@ -73,4 +73,21 @@ struct Piont{
 }
 
 let p = Piont()
-//p.y // - - 
+//p.y // - -
+
+
+//Observer 初始化 不设置，会面出发
+struct TestObserver{
+    var value:Int{
+        willSet{
+            print("will set \(newValue)")
+        }
+        didSet{
+            print("did set \(oldValue)")
+        }
+    }
+}
+
+var testOb = TestObserver(value: 10)
+testOb.value = 11
+
