@@ -91,3 +91,14 @@ struct TestObserver{
 var testOb = TestObserver(value: 10)
 testOb.value = 11
 
+class Car2{
+    static var count = 0
+    init() {
+        Car2.count += 1
+    }
+}
+
+var car1 = Car2()
+var car2 = Car2()
+
+print(Car2.count)
