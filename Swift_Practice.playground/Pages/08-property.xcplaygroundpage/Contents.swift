@@ -10,7 +10,7 @@ struct Circle {
         3.14 * 2 * radius
     }
     
-    var diameter:Double{
+    var diameter:Double{//计算属性
         set{
             radius = newValue/2
         }
@@ -102,3 +102,24 @@ var car1 = Car2()
 var car2 = Car2()
 
 print(Car2.count)
+
+//全局变量，局部变量
+// 计算属性
+var num:Int{
+    set{
+        print(newValue)
+    }
+    get{
+        return 10
+    }
+//    willSet{
+//        print(newValue)//'willSet' cannot be provided together with a setter
+//    }
+//    didSet{
+//        print(oldValue)
+//    }
+}
+
+num = 100
+print(num)
+
