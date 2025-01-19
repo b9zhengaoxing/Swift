@@ -83,3 +83,12 @@ var fn1 = functionRet(false)
 print("函数作为返回值\(fn1(1,2))")
 
 
+//inOut pass by reference
+//注意：1. 表示传递是引用，不是复制 2.修改是即时 3. 不能传递字面量
+func modifyValue(_ value:inout Int){
+    value += 10
+}
+
+var num1 = 10
+modifyValue(&num1)
+print(num1)
