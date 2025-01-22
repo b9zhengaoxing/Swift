@@ -55,14 +55,14 @@ class Grid{
                 return
             }
             else{
-                data[row]column] = newValue
+                data[row][column] = newValue
             }
                 
         }get{
             if row < 0 && row >= 3 && column < 0 && column >= 3{
                 return 0
             }else{
-                return data[row,column]
+                return data[row][column]
             }
         }
     }
