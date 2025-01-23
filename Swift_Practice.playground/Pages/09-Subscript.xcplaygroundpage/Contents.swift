@@ -71,3 +71,5 @@ class Grid{
 var grid = Grid()
 grid[0,0] = 10
 print(grid[0,0])
+grid[-1,10] = 100
+print(grid[-1,10])
