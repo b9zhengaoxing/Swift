@@ -51,25 +51,25 @@ class Grid{
     var data = [[0,1,2],[3,4,5],[6,7,8]]
     subscript(row:Int,column:Int)->Int{
         set{
-            if row < 0 && row >= 3 && column < 0 && column >= 3{
+            guard row >= 0 && row < 3 && column >= 0 && column < 3 else{
+                print("111 \(row)\(column)")
                 return
             }
-            else{
-                data[row][column] = newValue
-            }
+                
+            data[row][column] = newValue
+            print("\(row)\(column)")
                 
         }get{
-            if row < 0 && row >= 3 && column < 0 && column >= 3{
+            guard row >= 0 && row < 3 && column >= 0 && column < 3 else{
                 return 0
-            }else{
-                return data[row][column]
             }
+            return data[row][column]
         }
     }
 }
 
 var grid = Grid()
 grid[0,0] = 10
-print(grid[0,0])
+print(grid.data)
 grid[-1,10] = 100
-print(grid[-1,10])
+print(grid.data)
