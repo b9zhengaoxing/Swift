@@ -474,7 +474,9 @@ func translateData(rawData:String) -> [Model] {
 print("名称,股价,PETTM,PB,百分位,代码,行业,PE分数,PB分数,百分位分数,总分,当前标尺")
 let data = getData()
 var array:[Model] = []
-array = translateData(rawData: data)
+array = translateData(rawData: data).sorted(by: { a1, a2 in
+    a1.total_score > a2.total_score
+})
 
 for model in array{
     let newScore = newPePbScore(industry: model.industry)
