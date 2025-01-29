@@ -11,6 +11,18 @@ class animal{
         print("animal")
     }
     
+    static var Name:String = "动物"
+    static var classInt:Int = 0
+    class var classValue:Int{
+        set{
+            classInt = newValue * 2
+        }
+        get{
+            return classInt
+        }
+    }
+
+    
     subscript(Index:Int) -> Int{
         return Index
     }
@@ -32,3 +44,5 @@ class Dog:animal{
 var dog1 = Dog()
 dog1.type()
 print(dog1[1])
+
+print(Dog.Name)
