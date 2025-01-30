@@ -31,6 +31,15 @@ class animal{
 class Dog:animal{
     var height = 0
     
+    override var age:Int{
+        set{
+            super.age = newValue
+        }
+        get{
+            return super.age
+        }
+    }
+    
     override func type() {
         super.type()
         print("Dog")
@@ -44,5 +53,5 @@ class Dog:animal{
 var dog1 = Dog()
 dog1.type()
 print(dog1[1])
-
 print(Dog.Name)
+print(dog1.age)
