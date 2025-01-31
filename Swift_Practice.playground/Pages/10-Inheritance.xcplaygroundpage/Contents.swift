@@ -7,6 +7,7 @@ import Foundation
 
 class animal{
     var age = 0
+    var leg = 4
     func type() { // 重写实例方法
         print("animal")
     }
@@ -48,6 +49,15 @@ class Dog:animal{
     override subscript(Index: Int) -> Int {
         return super[Index] + 1
     }
+    
+    override var leg: Int{
+        willSet{
+            print("willSet \(newValue)")
+        }
+        didSet{
+            print("didSet \(oldValue)")
+        }
+    }
 }
 
 var dog1 = Dog()
@@ -55,3 +65,4 @@ dog1.type()
 print(dog1[1])
 print(Dog.Name)
 print(dog1.age)
+dog1.leg = 12
