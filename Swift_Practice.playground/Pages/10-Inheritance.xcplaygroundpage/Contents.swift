@@ -8,6 +8,7 @@ import Foundation
 class animal{
     var age = 0
     var leg = 4
+    final head = 1
     func type() { // 重写实例方法
         print("animal")
     }
@@ -31,7 +32,7 @@ class animal{
 
 class Dog:animal{
     var height = 0
-    
+//    override var head = 4
     override var age:Int{
         set{
             super.age = newValue
