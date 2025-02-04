@@ -138,3 +138,20 @@ var num12:Int?? = num11  //Int?? Int? nil
 var num13:Int?? = nil  //Int?? nil
 print("多重可选项nil \(num11 == num13)")
 
+
+struct User {
+    var profile:profile?
+}
+
+struct profile {
+    var name:String?
+}
+
+let user:User? = User(profile: profile(name: "孙悟空"))
+let name1 = user?.profile?.name
+
+if let use = user ,let profile = use.profile,let name2 = profile.name{
+    print(name2)
+}else{
+    print("解包失败")
+}
