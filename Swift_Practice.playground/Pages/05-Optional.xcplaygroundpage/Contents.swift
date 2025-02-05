@@ -141,6 +141,9 @@ print("多重可选项nil \(num11 == num13)")
 
 struct User {
     var profile:profile?
+    func doSomething() {
+        print("hello optional Chain")
+    }
 }
 
 struct profile {
@@ -154,4 +157,10 @@ if let use = user ,let profile = use.profile,let name2 = profile.name{
     print(name2)
 }else{
     print("解包失败")
+}
+
+if let _ = user?.doSomething(){
+    print("执行成功")
+}else {
+    print("也执行成功了")
 }
