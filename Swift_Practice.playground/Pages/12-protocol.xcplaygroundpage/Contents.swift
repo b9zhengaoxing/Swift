@@ -36,6 +36,20 @@ class Chinese:PersonRule{
         }
     }
 }
-let person = Chinese(name: "Chenglong")
+let person = Chinese(name: "Chenglong" , age:12)
+print(person.age)
+
+
+protocol Draw{
+    static func draw()
+}
+
+struct Art:Draw{
+    static func draw() {
+        print("hello hi")
+    }
+}
+
+Art.draw()
 
 
