@@ -42,14 +42,24 @@ print(person.age)
 
 protocol Draw{
     static func draw()
+    mutating func change()
 }
 
 struct Art:Draw{
+    var age = 0
+    
     static func draw() {
         print("hello hi")
+    }
+    
+    mutating func change() {
+        age = 111
     }
 }
 
 Art.draw()
+
+var art = Art()
+art.change()
 
 
