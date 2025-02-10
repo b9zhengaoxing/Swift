@@ -84,4 +84,10 @@ Art.draw()
 var art = Art()
 art.change()
 
+class Person:CustomStringConvertible,CustomDebugStringConvertible{
+    var description: String{"person"}
+    var debugDescription: String{"person_debug"}
+}
 
+var person1 = Person()
+print(person1)
