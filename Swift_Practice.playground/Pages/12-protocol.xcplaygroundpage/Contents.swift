@@ -60,6 +60,8 @@ struct propertyDemoStructure:propertyDemo{
 var proDemo = propertyDemoStructure(name:"成龙",age:25)
 print("\(proDemo.age) \(propertyDemoStructure.count)")
 
+
+//inharitance and func mutate static
 protocol Draw{
     static func draw()
 }
@@ -84,6 +86,31 @@ Art.draw()
 var art = Art()
 art.change()
 
+
+//init 非finil 需要增加 required
+protocol DrawAble{
+    init()
+    init?(x:Int,y:Int)
+}
+
+class DrawAbleImpliment:DrawAble{
+    required init(){}
+    required init?(x:Int,y:Int){}
+}
+
+//inheritance 与 组合
+protocol liveable{}
+protocol runable:liveable{}
+class RunningMan:liveable,runable{}
+typealias realRunman = RunningMan & liveable & runable
+
+func run0(obj:RunningMan){}
+func run1(obj:liveable){}
+func run2(obj:liveable & runable){}
+func run3(obj:RunningMan & liveable & runable){}
+func run4(obj:realRunman){}
+
+//协议的应用
 class Person:CustomStringConvertible,CustomDebugStringConvertible{
     var description: String{"person"}
     var debugDescription: String{"person_debug"}
@@ -91,3 +118,15 @@ class Person:CustomStringConvertible,CustomDebugStringConvertible{
 
 var person1 = Person()
 print(person1)
+
+//遍历枚举
+enum Season:CaseIterable{
+    case sprint,summer,fall,winter
+}
+
+let seasons = Season.allCases
+print(seasons.count)
+
+for season in seasons {
+    print(season)
+}
