@@ -343,7 +343,7 @@ struct Model {
     }
 }
 
-//数据 //name pe pb percent 代码 price
+//数据 //股票代码 name pe pb price percent
 
 func getData() -> String{
     return """
@@ -444,19 +444,19 @@ func translateData(rawData:String) -> [Model] {
         let components = line.split(separator: " ").filter { !$0.isEmpty }
 //        print(components)
         if components.count == 6,
-           let value1 = Double(components[1]),
-           let value2 = Double(components[2]),
-           let value3 = Double(components[3]),
-           let value5 = Double(components[5])
+           let value2 = Double(components[2]),//PE
+           let value3 = Double(components[3]),//PB
+           let value4 = Double(components[4]),//收盘价
+           let value5 = Double(components[5])//百分比
         {
-            let value4 = Int(String(components[4].prefix(6))) ?? 0
+            let value0 = Int(String(components[0].prefix(6))) ?? 0
             let stock = Model(
-                name: String(components[0]),
-                code: value4,
-                pe: value1,
-                pb: value2,
-                percent: value3,
-                price: value5
+                name: String(components[1]),
+                code: value0,
+                pe: value2,
+                pb: value3,
+                percent: value5,
+                price: value4
             )
 //            print(stock.name)
             stockDataList.append(stock)
