@@ -2,17 +2,35 @@
 
 import Foundation
 
-//1. Struct Bool，Int，Double，String，Array，Dictionary 常见类型都是结构
-
-
+//值类型
+//1. Struct Bool，Int，Double，String，Array，Dictionary，set 常见类型都是结构
 struct Date {
     var year:Int
     var month:Int
     var day:Int
 }
-//2. initializer 自动初始化器
+//2. initializer 自动初始化器,有严格的先后顺序
 var date = Date(year: 2024, month: 12, day: 26)
 print(date)
+
+
+//值类型赋值
+struct ValueType: ~Copyable{
+    deinit{
+        print("ValueType deinit")
+    }
+}
+
+class RefType{
+    deinit {
+        print("RefType deinit")
+    }
+}
+
+var valueType0:ValueType = ValueType()
+var valueType1:ValueType = valueType0
+var refType = RefType()
+var refType1 = refType
 
 //initializer  1. 至少要有初始值
 struct Point {
