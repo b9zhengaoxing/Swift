@@ -15,10 +15,8 @@ print(date)
 
 
 //值类型赋值
-struct ValueType: ~Copyable{
-    deinit{
-        print("ValueType deinit")
-    }
+struct ValueType{
+
 }
 
 class RefType{
@@ -30,7 +28,7 @@ class RefType{
 var valueType0:ValueType = ValueType()
 var valueType1:ValueType = valueType0
 var refType = RefType()
-var refType1 = refType
+refType = RefType()
 
 //initializer  1. 至少要有初始值
 struct Point {
