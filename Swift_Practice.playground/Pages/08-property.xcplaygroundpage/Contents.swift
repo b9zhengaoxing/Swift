@@ -4,13 +4,11 @@ import Foundation
 
 //Model 计算属性
 struct Circle {
-    var radius:Double
-    
-    var zhouChang: Double {
+    var radius:Double //store value
+    var zhouChang: Double {//cumpute Value
         3.14 * 2 * radius
     }
-    
-    var diameter:Double{//计算属性
+    var diameter:Double{//计算属性 直径
         set{
             radius = newValue/2
         }
@@ -27,6 +25,10 @@ print(circle.zhouChang)
 
 enum TestEnum:Int{
     case test1 = 1, test2 = 2, test3 = 3
+}
+
+enum TestEnum1:Int{
+    case test1 = 1, test2 = 2, test3 = 3 //raw value
     var rawValue:Int{ //本质上是computed property
         switch self {
         case .test1:
@@ -37,7 +39,6 @@ enum TestEnum:Int{
             3
         }
     }
-    
 }
 print(TestEnum.test1.rawValue)
 
