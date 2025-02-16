@@ -2,7 +2,23 @@
 
 import Foundation
 
-//Model 计算属性
+//存储属性 lazy : 1. store  2. {}() == func()
+class LazyDemo{
+//    但当前赋值的内容是一个闭包（closure）。如果希望执行这个闭包并将其结果赋值给 image，需要在闭包后面加上 ()
+    lazy var laValue:Int = {
+        print("lazy is calling")
+        return 10
+    }() //闭包 作为函数，() 是后面执行了
+    
+    init() {
+        print("hello")
+    }
+}
+
+let lazy_demo = LazyDemo()
+print(lazy_demo.laValue)
+
+//计算属性
 struct Circle {
     var radius:Double //store value
     var zhouChang: Double {//cumpute Value
@@ -23,6 +39,10 @@ print(circle.zhouChang)
 circle.diameter = 10
 print(circle.zhouChang)
 
+
+
+// rawValue 原始值
+// 是给每一项分配的Value 本质是 computed property
 enum TestEnum:Int{
     case test1 = 1, test2 = 2, test3 = 3
 }
@@ -47,39 +67,12 @@ if let value = TestEnum(rawValue: 2){
     print(value)
 }
 
-// lazy : 1. store  2. {}() == func()
-class Car{
-//    lazy var image:Int{print("lazy is calling")}   error: 08-property.xcplaygroundpage:52:9: cannot convert return expression of type '()' to return type 'Int'
-//    lazy var image:Int = {
-//        print("lazy is calling")
-//        return 10
-//    }
-//    但当前赋值的内容是一个闭包（closure）。如果希望执行这个闭包并将其结果赋值给 image，需要在闭包后面加上 ()
-    lazy var image:Int = {
-        print("lazy is calling")
-        return 10
-    }() //闭包 作为函数，() 是后面执行了
-    
-    init() {
-        print("hello")
+//Observer 父类初始化方法里面赋值，不触发，子类触发
+class Person{
+    init(name: String) {
+        self.name = name
     }
-}
-
-let car = Car()
-print(car.image)
-
-struct Piont{
-    var x = 0
-    lazy var y = 10
-}
-
-let p = Piont()
-//p.y // - -
-
-
-//Observer 初始化 不设置，会面出发
-struct TestObserver{
-    var value:Int{
+    var name:String{
         willSet{
             print("will set \(newValue)")
         }
@@ -89,20 +82,68 @@ struct TestObserver{
     }
 }
 
-var testOb = TestObserver(value: 10)
-testOb.value = 11
-
-class Car2{
-    static var count = 0
-    init() {
-        Car2.count += 1
+class Chinese:Person{
+    override init(name: String) {
+        super.init(name: name)
+        self.name = name; //子类里面赋值一定会触发
     }
 }
 
-var car1 = Car2()
-var car2 = Car2()
+var testOb = Person(name: "成龙")
+var testOb1 = Chinese(name: "成龙")
+testOb.name = "Jack"
 
-print(Car2.count)
+//1. Type property
+//    1. static  store + cannot override
+//    2. class  get set override
+class Tool{
+    static var count = 0
+    static var _name:String = ""
+    class var name:String{ // //class stored properties not supported in classes
+        set{
+            _name = newValue
+        }
+        get{
+            return _name
+        }
+    }
+}
+
+class Car:Tool{
+    //    override static var count = 1
+    override class var name:String{
+        set{
+            _name = "I am a Car"
+        }
+        get{
+            return _name
+        }
+    }
+}
+
+//单例模式
+// 一次初始化 static let private
+
+class Singleton{
+    static let shared = Singleton()
+    private init(){}
+    func doSomething(){}
+}
+
+Singleton.shared.doSomething()
+
+func outer(value:inout Int) -> Int {
+    value = value + 115
+    return value
+}
+
+var tmpValue = 15
+outer(value: &tmpValue)
+print(tmpValue)
+
+
+
+print(Car._name)
 
 //全局变量，局部变量
 // 计算属性
@@ -113,12 +154,6 @@ var num:Int{
     get{
         return 10
     }
-//    willSet{
-//        print(newValue)//'willSet' cannot be provided together with a setter
-//    }
-//    didSet{
-//        print(oldValue)
-//    }
 }
 
 num = 100
