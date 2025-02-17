@@ -2,38 +2,26 @@
 
 import Foundation
 
-//值类型 不支持 Inheritance
-//继承 属性 方法
-
 class animal{
     var age = 0
     var leg = 4
-    final head = 1
-    func type() { // 重写实例方法
-        print("animal")
-    }
-    
-    static var Name:String = "动物"
-    static var classInt:Int = 0
-    class var classValue:Int{
+    final var type:String = "动物"
+    static var number:Int = 0
+    class var number1:Int{//重写
         set{
-            classInt = newValue * 2
+            number = newValue
         }
         get{
-            return classInt
+            number
         }
     }
-
-    
     subscript(Index:Int) -> Int{
         return Index
     }
 }
 
 class Dog:animal{
-    var height = 0
-//    override var head = 4
-    override var age:Int{
+    override var age:Int{//override cumpute
         set{
             super.age = newValue
         }
@@ -41,16 +29,6 @@ class Dog:animal{
             return super.age
         }
     }
-    
-    override func type() {
-        super.type()
-        print("Dog")
-    }
-    
-    override subscript(Index: Int) -> Int {
-        return super[Index] + 1
-    }
-    
     override var leg: Int{
         willSet{
             print("willSet \(newValue)")
@@ -59,11 +37,16 @@ class Dog:animal{
             print("didSet \(oldValue)")
         }
     }
+    override class var number1:Int {
+        set{
+            number = newValue * 2
+        }
+        get{
+            number
+        }
+    }
+    override subscript(Index: Int) -> Int {
+        return super[Index] + 1
+    }
 }
 
-var dog1 = Dog()
-dog1.type()
-print(dog1[1])
-print(Dog.Name)
-print(dog1.age)
-dog1.leg = 12
