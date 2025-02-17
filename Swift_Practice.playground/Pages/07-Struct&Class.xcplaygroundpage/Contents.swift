@@ -86,3 +86,25 @@ struct Poker {
 }
 
 print(Poker.Suit.hearts)
+
+
+//method
+class Animal{
+    class func count(){}
+    static func name(){}
+}
+
+class dog:Animal{
+    override class func count(){}
+//    override static func name(){} //cannot override static method
+}
+
+struct Animal2{
+    var name:String = "狂言"
+    mutating func changeName(name:String){
+        self.name = name
+    }
+}
+
+var animal = Animal2()
+animal.changeName(name: "12")
