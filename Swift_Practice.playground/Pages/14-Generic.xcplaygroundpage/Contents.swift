@@ -25,29 +25,28 @@ print("a:\(a) b:\(b)")
 swapNum(&jack, &adam)
 print(jack.name + adam.name)
 
-struct Slack<T>{
-    var slack:[T] = []
+struct Stack<T>{
+    var stack:[T] = []
     
     mutating func push(_ a:T){
-        slack.append(a)
+        stack.append(a)
     }
     
     mutating func pop()->T? {
-        var tmp:T? = slack.last
-        slack.removeLast()
-        return tmp
+        if stack.isEmpty{
+            return nil
+        }else{
+            return stack.removeLast()
+        }
     }
 }
 
-var slack = Slack<Int>()
+var stack = Stack<Int>()
 for i in 0...10 {
-    print(i)
-    slack.push(10)
+    stack.push(i)
 }
 
-for i in 0...10 {
-    if let value = slack.pop(){
-        print(value)
-    }
+while let x = stack.pop(){
+    print(x)
 }
 
