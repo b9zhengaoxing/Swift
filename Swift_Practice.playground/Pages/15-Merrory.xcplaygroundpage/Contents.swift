@@ -15,7 +15,8 @@ class Person {
 
 func test(){
     var person:Person = Person()
-    person.fn = { person.run() }
+    person.fn = { [weak person] in
+        person?.run() }
 }
 
 test()
