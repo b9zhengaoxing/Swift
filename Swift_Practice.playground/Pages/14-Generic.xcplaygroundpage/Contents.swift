@@ -50,3 +50,10 @@ while let x = stack.pop(){
     print(x)
 }
 
+//泛型约束
+func printDescription<T:CustomStringConvertible>(_ a:T){
+    print(a.description)
+}
+
+printDescription("真的假的")
+
