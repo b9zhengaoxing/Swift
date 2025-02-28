@@ -32,7 +32,7 @@ class Dog<T>{
 }
 
 class Cat{
-    var hate:AnyObject?
+    weak var hate:AnyObject?
     deinit {
         print("cat deinit")
     }
@@ -43,7 +43,7 @@ var dog:Dog? = Dog<Cat>()
 cat?.hate = dog
 dog?.hate = cat
 cat = nil
-dog = nil
+//dog = nil
 
 
 
