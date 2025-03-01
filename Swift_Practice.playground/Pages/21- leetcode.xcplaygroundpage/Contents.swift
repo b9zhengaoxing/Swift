@@ -78,3 +78,27 @@ func twoSum4(_ nums: [Int], _ target: Int) -> [Int] {
     return []
 }
 
+
+//杨辉三角
+class Solution {
+    func generate(_ numRows: Int) -> [[Int]] {
+        if numRows == 0 {
+            return []
+        }
+            
+        var result:[[Int]] = [[Int]]()
+        result.append([1]) //add first 行
+
+        for i in 1..<numRows{
+            var currentRow = [1] // 每行起始为1
+            let preRow = result[i - 1] //前一行
+
+            for j in 1..<i{//上面生出下一行
+                currentRow.append(preRow[j] + preRow[j-1])
+            }
+            currentRow.append(1)//以1结尾
+            result.append(currentRow)
+        }
+        return result
+    }
+}
