@@ -1,31 +1,6 @@
 //: [Previous](@previous)
 
 import Foundation
-// Two numbers 数组越界
-func twoSum(_ nums: [Int], _ target: Int) -> [Int] {
-    var ret:[Int] = [Int]()
-    if nums.isEmpty{
-        return ret
-    }
-    
-    for i in 0...nums.count{
-        for j in 0...nums.count{
-            if i == j{
-                print("i \(i) j \(j)")
-                continue
-            }
-            if target == nums[i] + nums[j]{
-                print("i \(i) j \(j)")
-                ret.append(i)
-                ret.append(j)
-                return ret
-            }
-        }
-    }
-    return ret
-}
-
-
 //暴力解法
 //1. 暴力突破
 //2. 先排除越界情况
@@ -84,4 +59,22 @@ func twoSum3(_ nums: [Int], _ target: Int) -> [Int] {
     return ret
 }
 
+//hash 解法
+func twoSum4(_ nums: [Int], _ target: Int) -> [Int] {
+    
+    //使用字典 哈希表
+    var dict:[Int:Int] = [Int:Int]()
+
+    //循环数组，一遍循环一边比较
+    for (index,value) in nums.enumerated(){
+        var num = target - value
+        
+        //检查配对，如果存在，存下来
+        if let j = dict[num] {
+            return [index,j].sorted()
+        }
+        dict[value] = index
+    }
+    return []
+}
 
