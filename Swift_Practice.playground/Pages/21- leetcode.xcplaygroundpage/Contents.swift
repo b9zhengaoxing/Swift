@@ -102,3 +102,34 @@ class Solution {
         return result
     }
 }
+
+//14最长公共前串
+
+func longestCommonPrefix(_ strs: [String]) -> String {
+    if strs.count == 0{
+        return ""
+    }//特殊情况
+
+    if strs.count == 1{
+        return strs[0]
+    }
+
+    let arrays = strs.map{Array($0)}//问题转化为数组，处理Array
+    let firstArray = arrays[0]
+    var resultArr = [Character]()
+    for i in 0 ..< firstArray.count
+    {
+        for j in 1 ..< arrays.count
+        {
+            if arrays[j].count < i || arrays[j][i] !=  firstArray[i]{//跳出
+                return String(resultArr)
+            }
+        }
+        resultArr.append(firstArray[i])//套在里面了  ———— 
+    }
+    return String(resultArr)
+}
+
+
+
+
