@@ -125,9 +125,34 @@ func longestCommonPrefix(_ strs: [String]) -> String {
                 return String(resultArr)
             }
         }
-        resultArr.append(firstArray[i])//套在里面了  ———— 
+        resultArr.append(firstArray[i])//套在里面了  ————
     }
     return String(resultArr)
+}
+
+
+//7 字符串翻转
+
+func reverse(_ x: Int) -> Int {
+    //符号处理
+    var sign = x > 0 ? 1 : -1
+    
+    var num = abs(x)//正整数
+    
+    var reversed:Int = 0
+
+    while num > 0 {
+        //翻转处理
+        let digit = num % 10
+        num = num / 10
+        reversed = reversed * 10 + digit
+        //越界处理
+        if reversed > Int32.max {
+            return 0
+        }
+    }
+
+    return reversed * sign
 }
 
 
