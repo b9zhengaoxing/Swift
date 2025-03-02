@@ -155,6 +155,37 @@ func reverse(_ x: Int) -> Int {
     return reversed * sign
 }
 
+//14 赎金信问题
+//1. 处理越界
+//2. repeating:, count:
+//unicodeScalar
 
-
+func canConstruct(_ ransomNote: String, _ magazine: String) -> Bool {
+    //越界监测
+    if ransomNote.count > magazine.count{
+        return false
+    }
+    
+    //统计赎金数组
+    var checkArray = Array(repeating:0,count:26)
+    let aUnicode = UnicodeScalar("a").value
+    
+    //统计赎金
+    for scalar in magazine.unicodeScalars{
+        let index = Int(scalar.value - aUnicode)
+        checkArray[index] += 1
+    }
+    
+    //对照赎金
+    for scalar in  ransomNote.unicodeScalars{
+        
+        let index = Int(scalar.value - aUnicode)
+        checkArray[index] -= 1
+        
+        if checkArray[index] < 0 {
+            return false
+        }
+    }
+    return true
+}
 
