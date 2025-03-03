@@ -189,3 +189,5 @@ func canConstruct(_ ransomNote: String, _ magazine: String) -> Bool {
     return true
 }
 
+//二分查找
+//动态规划
