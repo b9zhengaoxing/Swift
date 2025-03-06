@@ -193,3 +193,4 @@ func canConstruct(_ ransomNote: String, _ magazine: String) -> Bool {
 //动态规划
 //二叉树
 //二分查找 双指针 滑动窗口 前缀和 区间和
+//链表 ： 双指针，递归，模拟，合并链表
