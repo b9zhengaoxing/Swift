@@ -2,12 +2,44 @@
 
 import Foundation
 
-print("a".unicodeScalars.first!)
-print("a".unicodeScalars.first!.value)
-print("b".unicodeScalars.first!.value)
+//转换专题
+
+//String  —— Unicoder —— Key
+print("a".unicodeScalars.first!)  //a
+print("a".unicodeScalars.first!.value) //97
+print("b".unicodeScalars.first!.value) //98
+
+//总论： Set Dic Array 都是Struct 定义都是值类型 <Generic>
+//需要保证类型 一致
+//Set 初始化
+var set1:Set = Set<Int>() //给出类型
+var set11:Set = [1,1,2,3,4] //推断类型，且由数组转入
+
+//增删
+set11.contains(1)
+set11.insert(11)
+set11.remove(1)
+print(set11)
+Array(set11)
+
+//数组初始化
+var arr = [Int]() //给出类型，初始化，或者赋值
+arr.count
+//arr.remove(at: <#T##Int#>)
+//arr.append(<#T##newElement: Int##Int#>)
+//arr.insert(<#T##newElement: Int##Int#>, at: <#T##Int#>)
+arr.contains(10)
+Set(arr)
+
+//字典
+var dic = [Int:Int]()
+//dic.contains(where: <#T##((key: Int, value: Int)) throws -> Bool#>)?
+//dic.remove(at: <#T##Dictionary<Int, Int>.Index#>)
+dic[10] = 100
+dic.values
+dic.keys
 
 //在 Swift 中，可以通过不同的方法在 Set、Dictionary（哈希表）和 Array 之间进行相互转换。以下是一些常见的转换方法：
-
 //1. 数组（Array）转 Set（Hash）
 //
 //Set 是无序且不包含重复元素的集合。
