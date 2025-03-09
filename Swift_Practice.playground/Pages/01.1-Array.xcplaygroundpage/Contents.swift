@@ -27,7 +27,7 @@ var arr = [Int]() //给出类型，初始化，或者赋值
 arr.count
 //arr.remove(at: <#T##Int#>)
 //arr.append(<#T##newElement: Int##Int#>)
-//arr.insert(<#T##newElement: Int##Int#>, at: <#T##Int#>)
+//arr.insert(<#T##newElement: Int##Int#>, at: T##Int)
 arr.contains(10)
 Set(arr)
 
