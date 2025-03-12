@@ -39,6 +39,15 @@ dic[10] = 100
 dic.values
 dic.keys
 
+//1. 没有optional
+dic[11,default:0] += 1
+print(dic[11])
+
+//dic[i] 是 Optional<Int> 不能直接 += 所以可以使用 dic[11,default:0]
+
+//2.排序
+let sortedDic = dic.sorted { $0.value > $value }//按照Value 排序
+
 //在 Swift 中，可以通过不同的方法在 Set、Dictionary（哈希表）和 Array 之间进行相互转换。以下是一些常见的转换方法：
 //1. 数组（Array）转 Set（Hash）
 //
