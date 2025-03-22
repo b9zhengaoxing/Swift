@@ -228,3 +228,5 @@ func serve1(customer  custmoerProvider: @autoclosure ()->String ){
 }
 
 serve1(customer: (nameList.remove(at: 0)))
+
+

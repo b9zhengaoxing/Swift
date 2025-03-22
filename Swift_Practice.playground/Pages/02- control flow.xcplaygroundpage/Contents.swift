@@ -141,6 +141,22 @@ outLooper:for i in 0...100{
     }
 }
 
+let num123 = 3
+var a: String
+
+switch num {
+case 1:
+    a = "One"
+case 2:
+    a = "Two"
+case 3:
+    a = "Three"
+default:
+    a = "Other"
+}
+
+print(a) // 输出 "Three"
+
 
 
 
