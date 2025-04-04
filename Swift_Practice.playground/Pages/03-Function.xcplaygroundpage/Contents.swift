@@ -1,5 +1,6 @@
 import Foundation
-//默认是let 也只能是
+
+//fun参数 默认是let 也只能是
 func add(a:Int,b:Int) -> Int{
     //    a = a + b 'a' is a 'let' constant
     var c = a + b
@@ -8,21 +9,23 @@ func add(a:Int,b:Int) -> Int{
 
 print(add(a: 10, b: 20))
 
-//_ 一定要用空格
-//Argument Label
+//Argument Label ⭐️
+//增加可读性，from a,to b
+//如果没写默认 参数标签  a,b
+//用_ 可省略，用空格
 func exchange(_ a:Int,_ b:Int)->(Int,Int){
     (b,a)  // implicit return
 }
 
 print(exchange(10,1))
 
-//Default Parameter
+//Default Parameter ⭐️
 func check(_ name:String = "hello world") -> (String,String){
     (name,"!")
 }
 print(check("你好"))
 
-//variadic Parameter
+//variadic Parameter ⭐️
 func sum(_ numbers: Int...) -> Int {
     var value:Int = 1
     for i in numbers {
@@ -66,7 +69,10 @@ func functionFun(fun:(Int,Int)->(Int),a:Int,b:Int) -> Int {
 print(functionFun(fun: add, a: 10, b: 11))
 
 
-//nest function
+//nest function ⭐️
+//相当于 Closure 捕获变量：
+//捕获了 value type 相当于inout
+//捕获了 ref type 小心循环引用
 func functionRet(_ forward:Bool) -> (Int,Int)->(Int) {
     func funAdd(a:Int,b:Int)->(Int){
         a + b

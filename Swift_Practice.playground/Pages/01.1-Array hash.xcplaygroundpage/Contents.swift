@@ -26,6 +26,7 @@ Array(set11)
 //Array 初始化
 var arr = [Int]() //给出类型，初始化，或者赋值
 arr = [1,2,3,4,5,6,7,8,9]
+arr += [10,11]
 arr.count
 //arr.remove(at: <#T##Int#>)
 //arr.append(<#T##newElement: Int##Int#>)
