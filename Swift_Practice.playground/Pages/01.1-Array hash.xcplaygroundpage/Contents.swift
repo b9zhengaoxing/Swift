@@ -3,7 +3,6 @@
 import Foundation
 
 //转换专题
-
 //String  —— Unicoder —— Key
 print("a".unicodeScalars.first!)  //a
 print("a".unicodeScalars.first!.value) //97
@@ -12,22 +11,24 @@ print("b".unicodeScalars.first!.value) //98
 //总论： Set Dic Array 都是Struct 定义都是值类型 <Generic>
 //需要保证类型 一致
 
-//Set 初始化
+//一：Set 初始化
 var set1:Set = Set<Int>() //给出类型
 var set11:Set = [1,1,2,3,4] //推断类型，且由数组转入
 
-//增删
-set11.contains(1)
+//增删查 ⭐️
 set11.insert(11)
 set11.remove(1)
-print(set11)
 Array(set11)
+set11.contains(1)
+print(set11)
 
-//Array 初始化
+
+//二：Array 初始化
 var arr = [Int]() //给出类型，初始化，或者赋值
 arr = [1,2,3,4,5,6,7,8,9]
 arr += [10,11]
 arr.count
+//arr.removeAll(where: <#T##(Int) throws -> Bool#>) 在
 //arr.remove(at: <#T##Int#>)
 //arr.append(<#T##newElement: Int##Int#>)
 //arr.insert(<#T##newElement: Int##Int#>, at: T##Int)
