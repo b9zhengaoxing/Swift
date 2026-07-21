@@ -649,6 +649,13 @@ let lineWidth = displayWidth(headerLine)
 print(String(repeating: "-", count: lineWidth))
 
 for model in array {
+    if model.name.hasPrefix("ST") || model.name.hasPrefix("*ST") {
+        continue
+    }
+    if model.total_score < 240 {
+        continue
+    }
+    
     let rule = newPePbScore(industry: model.industry)
 
     // 格式化
@@ -689,34 +696,41 @@ for model in array {
 
 
 // 2) CSV Export（和图4一致）
-print("\n" + String(repeating: "=", count: 100))
-print("CSV格式数据（可直接复制粘贴到Excel）")
-print(String(repeating: "=", count: 100))
+//print("\n" + String(repeating: "=", count: 100))
+//print("CSV格式数据（可直接复制粘贴到Excel）")
+//print(String(repeating: "=", count: 100))
 
-// CSV Header
-print("名称,代码,总分,股价,PETTM,标尺PE,PE分数,PB,标尺PB,PB分数,百分位,百分位分数,行业")
-
-// CSV Data
-for model in array {
-    let rule = newPePbScore(industry: model.industry)
-    print(
-        "\(model.name)," +
-        "\(model.code)," +
-        "\(model.total_score)," +
-        "\(model.price)," +
-        "\(model.pe)," +
-        "\(rule.peScore)," +
-        "\(model.pe_score)," +
-        "\(model.pb)," +
-        "\(rule.pbScore)," +
-        "\(model.pb_score)," +
-        "\(model.percent)," +
-        "\(model.percent_score)," +
-        "\(model.industry)"
-    )
-}
-
-print(String(repeating: "=", count: 100) + "\n")
+//// CSV Header
+//print("名称,代码,总分,股价,PETTM,标尺PE,PE分数,PB,标尺PB,PB分数,百分位,百分位分数,行业")
+//
+//// CSV Data
+//for model in array {
+//    let rule = newPePbScore(industry: model.industry)
+//    if model.name.hasPrefix("ST") || model.name.hasPrefix("*ST") {
+//        continue
+//    }
+//    if model.total_score < 240 {
+//        continue
+//    }
+//    
+//    print(
+//        "\(model.name)," +
+//        "\(model.code)," +
+//        "\(model.total_score)," +
+//        "\(model.price)," +
+//        "\(model.pe)," +
+//        "\(rule.peScore)," +
+//        "\(model.pe_score)," +
+//        "\(model.pb)," +
+//        "\(rule.pbScore)," +
+//        "\(model.pb_score)," +
+//        "\(model.percent)," +
+//        "\(model.percent_score)," +
+//        "\(model.industry)"
+//    )
+//}
+//
+//print(String(repeating: "=", count: 100) + "\n")
 
 //print("名称,股价,PETTM,PB,百分位,代码,行业,PE分数,PB分数,百分位分数,总分,当前标尺")
 //let data = getData()
