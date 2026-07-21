@@ -58,12 +58,20 @@ func oneOpackage1(_ firstLine:[Int],_ spaces:[Int], _ values:[Int]){
 }
 
 
-
-
 oneOpackage(firstLine, spaces, values)
 oneOpackage1(firstLine, spaces, values)
 
 
-
-//背包问题 一维数组
+func change(_ amount: Int, _ coins: [Int]) -> Int {
+    //完全背包问题
+    var dp = [Int](repeating:0,count:amount + 1)//数组含义：最多多少种  1 + F（4）  2 + F（3）
+    dp[0] = 1
+    for coin in coins{
+        if coin > amount {continue}
+        for i in coin ... amount{
+            dp[i] += dp[i - coin]  //最大
+        }
+    }
+    return dp[amount]
+}
 

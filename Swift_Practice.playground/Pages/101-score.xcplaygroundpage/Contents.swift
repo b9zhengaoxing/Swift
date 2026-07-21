@@ -320,47 +320,38 @@ struct stockModel {
 
 func getData() -> String{
     return """
-601398      工商银行    300 0.53%   964.98  90.27%  2,034.00
-600050      中国联通    500 0.71%   1,208.20    79.39%  2,730.00
-600028      中国石化    400 0.58%   874.4   63.84%  2,244.00
-685     中山公用    300 0.65%   767.7   43.51%  2,532.00
-600000      浦发银行    1100    2.84%   3,050.10    38.37%  11,000.00
-600483      福能股份    1100    2.67%   1,381.00    15.43%  10,329.00
-600153      建发股份    100 0.27%   119 12.91%  1,041.00
-581     威孚高科    200 0.94%   357 10.84%  3,650.00
-600018      上港集团    1400    2.02%   756.8   10.71%  7,826.00
-600219      南山铝业    3500    2.99%   905 8.47%   11,585.00
-601186      中国铁建    200 0.41%   105 7.00%   1,604.00
-601339      百隆东方    300 0.36%   90.9    6.95%   1,398.00
-600704      物产中大    500 0.62%   149.9   6.63%   2,410.00
-601006      大秦铁路    1400    2.41%   525.54  5.96%   9,338.00
-600104      上汽集团    300 1.16%   166.16  3.83%   4,503.00
-600064      南京高科    1400    2.46%   282 3.05%   9,534.00
-603187      海容冷链    1100    2.89%   190 1.73%   11,176.00
-603367      辰欣药业    500 1.73%   107 1.63%   6,690.00
-2432        九安医疗    200 1.86%   115 1.62%   7,200.00
-601311      骆驼股份    1000    1.87%   94  1.32%   7,220.00
-725     京东方A    700 0.67%   20.49   0.79%   2,611.00
-601163      三角轮胎    300 1.04%   21  0.52%   4,044.00
-932     华菱钢铁    200 0.23%   -17.01  -1.85%  902
-623     吉林敖东    200 0.80%   -63 -2.00%  3,092.00
-600585      海螺水泥    200 1.31%   -137    -2.63%  5,074.00
-2233        塔牌集团    100 0.21%   -33.1   -3.97%  801
-600051      宁波联合    200 0.32%   -55 -4.31%  1,222.00
-28      国药一致    400 2.51%   -632.3  -6.11%  9,708.00
-603898      好莱客 100 0.23%   -64.1   -6.76%  884
-600089      特变电工    400 1.19%   -357.5  -7.21%  4,604.00
-601669      中国电建    300 0.37%   -186.03 -11.48% 1,434.00
-910     大亚圣象    300 0.58%   -344.12 -13.27% 2,250.00
-2091        江苏国泰    500 0.86%   -648.01 -16.37% 3,310.00
-726     鲁泰A 1100    1.55%   -1,189.00   -16.53% 6,006.00
-600308      华泰股份    420 0.35%   -331.22 -19.82% 1,339.80
-600328      中盐化工    1000    1.83%   -2,002.00   -22.04% 7,080.00
-600655      豫园股份    200 0.28%   -438.1  -28.45% 1,102.00
-898     鞍钢股份    500 0.29%   -505.6  -31.20% 1,115.00
-2932        明德生物    100 0.44%   -1,033.00   -37.77% 1,702.00
-401     冀东水泥    200 0.25%   -741.02 -43.16% 976
-300158      振东制药   300 0.30%   -877.8  -43.25% 1,152.00
+623    吉林敖东    2500    2.98%    2,035.50    4.59%    46,400.00
+600861    北京人力    3500    2.95%    1,315.00    2.95%    45,885.00
+603368    柳药集团    2900    2.93%    104.94    0.23%    45,559.00
+603187    海容冷链    3400    2.57%    4,193.00    11.73%    39,950.00
+601311    骆驼股份    5100    2.55%    2,033.00    5.40%    39,678.00
+600741    华域汽车    2300    2.52%    -479.1    -1.21%    39,215.00
+603689    皖天然气    5200    2.51%    -422    -1.07%    39,052.00
+2608    江苏国信    5000    2.40%    -172    -0.46%    37,400.00
+600015    华夏银行    5200    2.33%    278.4    0.77%    36,296.00
+726    鲁泰A    6000    2.24%    -3,953.00    -10.18%    34,860.00
+2736    国信证券    2600    1.72%    1,598.95    6.34%    26,806.00
+601319    中国人保    2900    1.41%    1,815.20    9.05%    21,866.00
+601601    中国太保    600    1.22%    504.6    2.73%    18,978.00
+601186    中国铁建    2100    0.87%    -1,098.10    -7.47%    13,608.00
+601668    中国建筑    2700    0.81%    107.76    0.87%    12,555.00
+600483    福能股份    1100    0.81%    4,401.60    54.08%    12,540.00
+600269    赣粤高速    2700    0.71%    -1,706.10    -13.44%    10,989.00
+600064    南京高科    1400    0.67%    2,046.00    24.40%    10,430.00
+600000    浦发银行    1100    0.65%    3,017.10    42.88%    10,054.00
+2582    好想你    1100    0.64%    -203    -1.99%    10,010.00
+601006    大秦铁路    1400    0.44%    -1,516.10    -18.25%    6,790.00
+601318    中国平安    100    0.34%    251    4.95%    5,323.00
+601163    三角轮胎    300    0.24%    51    1.36%    3,795.00
+2091    江苏国泰    500    0.24%    216.99    6.07%    3,790.00
+581    威孚高科    200    0.22%    455    15.41%    3,408.00
+600704    物产中大    500    0.16%    419.9    20.53%    2,465.00
+600050    中国联通    500    0.14%    791    56.14%    2,200.00
+600028    中国石化    400    0.13%    862.4    69.91%    2,096.00
+898    鞍钢股份    500    0.06%    -630.6    -38.91%    990
+600655    豫园股份    200    0.06%    -618.1    -41.15%    884
+600153    建发股份    100    0.06%    36    4.38%    858
+401    金隅冀东    200    0.05%    -945.02    -56.35%    732
 """
 }
 
@@ -408,50 +399,100 @@ func creatIndustryArray(rawData: [stockModel]) -> [IndustryModel] {
         .sorted { $0.name < $1.name } // 按行业名称排序
 }
 
-func printIndustryReport(industryArray: [IndustryModel],totalStockValue:Double) {
-    var grandTotal: Double = 0
-    
-    for industry in industryArray.sorted(by: { $0.name < $1.name }) {
-        let industryHeader = """
-        ┌───────────────────────────────────
-        │ 行业：\(industry.name)
-        │ 行业占比：\(String(format: "%.4f", industry.totalPrice/totalStockValue)) 需要投入：\(String(format: "%.2f", totalStockValue*0.03 - industry.totalPrice)) 元
-        │ 行业总价：\(String(format: "%.2f", industry.totalPrice)) 元
-        
-        """
-        print(industryHeader)
-        
-        for (index, stock) in industry.stocks.enumerated() {
-            let stockInfo = String(format: "│   %2d. %-6d %-20@ ¥%.2f",
-                                   index + 1,
-                                   stock.code,
-                                   stock.name,
-                                   stock.price)
-            print(stockInfo)
-        }
-        
-        let industryFooter = """
-        └───────────────────────────────────
-        本行业共计 \(industry.stocks.count) 只股票
-        """
-        print(industryFooter)
-        
-        grandTotal += industry.totalPrice
-        print() // 空行分隔
+//func printIndustryReport(industryArray: [IndustryModel],totalStockValue:Double) {
+//    var grandTotal: Double = 0
+//    
+//    for industry in industryArray.sorted(by: { $0.name < $1.name }) {
+//        let industryHeader = """
+//        ┌───────────────────────────────────
+//        │ 行业：\(industry.name)
+//        │ 行业占比：\(String(format: "%.4f", industry.totalPrice/totalStockValue)) 需要投入：\(String(format: "%.2f", totalStockValue*0.03 - industry.totalPrice)) 元
+//        │ 行业总价：\(String(format: "%.2f", industry.totalPrice)) 元
+//        
+//        """
+//        print(industryHeader)
+//        
+//        for (index, stock) in industry.stocks.enumerated() {
+//            let stockInfo = String(format: "│   %2d. %-6d %-20@ ¥%.2f",
+//                                   index + 1,
+//                                   stock.code,
+//                                   stock.name,
+//                                   stock.price)
+//            print(stockInfo)
+//        }
+//        
+//        let industryFooter = """
+//        └───────────────────────────────────
+//        本行业共计 \(industry.stocks.count) 只股票
+//        """
+//        print(industryFooter)
+//        
+//        grandTotal += industry.totalPrice
+//        print() // 空行分隔
+//    }
+//    
+//    let summary = """
+//    ========================================
+//    全市场总计：
+//    - 行业数量：\(industryArray.count) 个
+//    - 股票总数：\(industryArray.reduce(0) { $0 + $1.stocks.count }) 只
+//    - 市场总市值：\(String(format: "%.2f", grandTotal)) 元
+//    ========================================
+//    """
+//    print(summary)
+//}
+
+func printIndustryReport(
+    industryArray: [IndustryModel],
+    totalStockValue: Double
+) {
+    let sortedIndustries = industryArray.sorted {
+        $0.name < $1.name
     }
-    
-    let summary = """
-    ========================================
-    全市场总计：
-    - 行业数量：\(industryArray.count) 个
-    - 股票总数：\(industryArray.reduce(0) { $0 + $1.stocks.count }) 只
-    - 市场总市值：\(String(format: "%.2f", grandTotal)) 元
-    ========================================
-    """
-    print(summary)
+
+    var grandTotal: Double = 0
+
+    print("行业       占比     需投入       总价        股票明细")
+    print("------------------------------------------------------------")
+
+    for industry in sortedIndustries {
+        let ratio = industry.totalPrice / totalStockValue * 100
+        let needInvest = totalStockValue * 0.03 - industry.totalPrice
+
+        let stockSummary = industry.stocks
+            .map {
+                "\($0.name)(\($0.code)) ¥\(String(format: "%.0f", $0.price))"
+            }
+            .joined(separator: "；")
+
+        let row = String(
+            format: "%-8@ %5.2f%% %10.0f %10.0f  %@",
+            industry.name as NSString,
+            ratio,
+            needInvest,
+            industry.totalPrice,
+            stockSummary
+        )
+
+        print(row)
+
+        grandTotal += industry.totalPrice
+    }
+
+    print("------------------------------------------------------------")
+
+    let stockCount = sortedIndustries.reduce(0) {
+        $0 + $1.stocks.count
+    }
+
+    print(
+        "行业：\(sortedIndustries.count) 个  " +
+        "股票：\(stockCount)  " +
+        "总市值：¥\(String(format: "%.2f", grandTotal))"
+    )
 }
 
 // 调用示例
-printIndustryReport(industryArray: industryArray,totalStockValue:383637.2)
+printIndustryReport(industryArray: industryArray,totalStockValue:1555064.31)
 
 
