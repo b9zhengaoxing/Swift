@@ -526,12 +526,10 @@ func printIndustryReport(
     )
 }
 
-func printFiveMillionInvestmentPlan(
-    currentValue: Double,
-    targetValue: Double = 5_000_000
-) {
+func printInvestmentPlans(currentValue: Double) {
     let annualRates: [Double] = [0.10, 0.125, 0.15]
     let monthlyInvestments: [Double] = [
+        0,
         20_000,
         30_000,
         40_000,
@@ -539,11 +537,13 @@ func printFiveMillionInvestmentPlan(
     ]
 
     func requiredMonths(
+        initialValue: Double,
+        targetValue: Double,
         annualRate: Double,
         monthlyInvestment: Double
     ) -> Int {
         let monthlyRate = annualRate / 12
-        var totalValue = currentValue
+        var totalValue = initialValue
         var months = 0
 
         while totalValue < targetValue {
@@ -564,35 +564,84 @@ func printFiveMillionInvestmentPlan(
     currencyFormatter.minimumFractionDigits = 2
     currencyFormatter.maximumFractionDigits = 2
 
-    let currentValueText = currencyFormatter.string(
-        from: NSNumber(value: currentValue)
-    ) ?? String(format: "%.2f", currentValue)
+    func currencyText(_ value: Double) -> String {
+        currencyFormatter.string(
+            from: NSNumber(value: value)
+        ) ?? String(format: "%.2f", value)
+    }
 
-    print()
-    print("500万 - 目标测算")
-    print(
-        "当前股权：¥\(currentValueText)  " +
-        "目标股权：¥500W"
-    )
-    print()
-    print("年化收益率  月投2万     月投3万     月投4万     月投4.5万")
-    print("-------------------------------------------------------")
+    func printPlan(
+        title: String,
+        initialValue: Double,
+        targetValue: Double,
+        valueDescription: String
+    ) {
+        print()
+        print(title)
+        print(valueDescription)
+        print()
+        print("年化收益率  月投0万     月投2万     月投3万     月投4万     月投4.5万")
+        print("-------------------------------------------------------------------")
 
-    for annualRate in annualRates {
-        let durationTexts = monthlyInvestments.map {
-            durationText(
-                months: requiredMonths(
-                    annualRate: annualRate,
-                    monthlyInvestment: $0
+        for annualRate in annualRates {
+            let durationTexts = monthlyInvestments.map {
+                durationText(
+                    months: requiredMonths(
+                        initialValue: initialValue,
+                        targetValue: targetValue,
+                        annualRate: annualRate,
+                        monthlyInvestment: $0
+                    )
                 )
+            }
+
+            print(
+                "\(String(format: "%5.1f%%", annualRate * 100))      " +
+                durationTexts.joined(separator: "    ")
             )
         }
-
-        print(
-            "\(String(format: "%5.1f%%", annualRate * 100))      " +
-            durationTexts.joined(separator: "    ")
-        )
     }
+
+    printPlan(
+        title: "500万 - 目标测算",
+        initialValue: currentValue,
+        targetValue: 5_000_000,
+        valueDescription:
+            "当前股权：¥\(currencyText(currentValue))  目标股权：¥500W"
+    )
+
+    let propertySaleInvestment = 2_000_000.0
+    let propertyPlanInitialValue = currentValue + propertySaleInvestment
+
+    printPlan(
+        title: "房产出售200万 - 目标测算",
+        initialValue: propertyPlanInitialValue,
+        targetValue: 5_000_000,
+        valueDescription:
+            "当前股权：¥\(currencyText(currentValue))  " +
+            "房产投入：¥200W  " +
+            "投入后本金：¥\(currencyText(propertyPlanInitialValue))  " +
+            "目标股权：¥500W"
+    )
+
+    printPlan(
+        title: "1000万 - 目标测算",
+        initialValue: currentValue,
+        targetValue: 10_000_000,
+        valueDescription:
+            "当前股权：¥\(currencyText(currentValue))  目标股权：¥1000W"
+    )
+
+    printPlan(
+        title: "房产出售200万 - 1000万目标测算",
+        initialValue: propertyPlanInitialValue,
+        targetValue: 10_000_000,
+        valueDescription:
+            "当前股权：¥\(currencyText(currentValue))  " +
+            "房产投入：¥200W  " +
+            "投入后本金：¥\(currencyText(propertyPlanInitialValue))  " +
+            "目标股权：¥1000W"
+    )
 }
 
 // 调用示例
@@ -603,6 +652,6 @@ printIndustryReport(
     totalStockValue: totalStockValue
 )
 
-printFiveMillionInvestmentPlan(
+printInvestmentPlans(
     currentValue: totalStockValue
 )
