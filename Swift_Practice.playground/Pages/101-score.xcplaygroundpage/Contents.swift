@@ -515,14 +515,94 @@ func printIndustryReport(
         $0 + $1.stocks.count
     }
 
+    let positionRatio = grandTotal / totalStockValue * 100
+
     print(
         "行业：\(sortedIndustries.count) 个  " +
         "股票：\(stockCount)  " +
-        "总市值：¥\(String(format: "%.2f", grandTotal))"
+        "总市值：¥\(String(format: "%.2f", grandTotal))  " +
+        "账户总值：¥\(String(format: "%.2f", totalStockValue))  " +
+        "仓位比例：\(String(format: "%.2f%%", positionRatio))"
     )
 }
 
+func printFiveMillionInvestmentPlan(
+    currentValue: Double,
+    targetValue: Double = 5_000_000
+) {
+    let annualRates: [Double] = [0.10, 0.125, 0.15]
+    let monthlyInvestments: [Double] = [
+        20_000,
+        30_000,
+        40_000,
+        45_000
+    ]
+
+    func requiredMonths(
+        annualRate: Double,
+        monthlyInvestment: Double
+    ) -> Int {
+        let monthlyRate = annualRate / 12
+        var totalValue = currentValue
+        var months = 0
+
+        while totalValue < targetValue {
+            totalValue *= 1 + monthlyRate
+            totalValue += monthlyInvestment
+            months += 1
+        }
+
+        return months
+    }
+
+    func durationText(months: Int) -> String {
+        "\(months / 12)年\(months % 12)个月"
+    }
+
+    let currencyFormatter = NumberFormatter()
+    currencyFormatter.numberStyle = .decimal
+    currencyFormatter.minimumFractionDigits = 2
+    currencyFormatter.maximumFractionDigits = 2
+
+    let currentValueText = currencyFormatter.string(
+        from: NSNumber(value: currentValue)
+    ) ?? String(format: "%.2f", currentValue)
+
+    print()
+    print("500万 - 目标测算")
+    print(
+        "当前股权：¥\(currentValueText)  " +
+        "目标股权：¥500W"
+    )
+    print()
+    print("年化收益率  月投2万     月投3万     月投4万     月投4.5万")
+    print("-------------------------------------------------------")
+
+    for annualRate in annualRates {
+        let durationTexts = monthlyInvestments.map {
+            durationText(
+                months: requiredMonths(
+                    annualRate: annualRate,
+                    monthlyInvestment: $0
+                )
+            )
+        }
+
+        print(
+            "\(String(format: "%5.1f%%", annualRate * 100))      " +
+            durationTexts.joined(separator: "    ")
+        )
+    }
+}
+
 // 调用示例
-printIndustryReport(industryArray: industryArray,totalStockValue:1568137.51)
+let totalStockValue = 1574609.01
 
+printIndustryReport(
+    industryArray: industryArray,
+    totalStockValue: totalStockValue
+)
 
+printFiveMillionInvestmentPlan(
+    currentValue: totalStockValue
+)
