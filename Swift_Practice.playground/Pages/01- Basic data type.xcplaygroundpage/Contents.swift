@@ -3,12 +3,24 @@ import UIKit
 import SwiftUI
 import PlaygroundSupport// 支持异步运行，显示实时试图
 
-print("hello, world")
 
 let a = 10
 let b = 20
 var c = a + b
 c += c
+
+//1. 不需要转义
+//2. 自动删除公共空行
+//3. 方便计算
+let quotation = """
+        "Even though there's whitespace to the left,"
+        the actual lines aren't indented.
+            Except for this line.
+        Double quotes (") can appear without being escaped.
+
+        I still have \(a + b) pieces of fruit.
+        """
+print(quotation)
 
 let view = UIView()
 view.frame = CGRect(x:0, y:0, width:100, height: 100)
@@ -21,12 +33,12 @@ PlaygroundPage.current.liveView = view
 
 //常量
 let age1 = 10
-let age2:Int
+let age2:Float
 
 //Constant 'age2' used before being initialized
 //print(age2)
 
-age2 = 100
+age2 = 10
 
 func getAge() -> Int{
     return 30
