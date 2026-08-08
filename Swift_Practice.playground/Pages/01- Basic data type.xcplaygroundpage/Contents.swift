@@ -1,17 +1,14 @@
 
-import UIKit
-import SwiftUI
-import PlaygroundSupport// 支持异步运行，显示实时试图
+import Foundation
 
+//, 用法
+var a = 10,b = 20
+var d,c:Int
 
-let a = 10
-let b = 20
-var c = a + b
-c += c
+//String
+    //1. """ 中 "" 不需 转义
+    //2. 自动delete 公共空行
 
-//1. 不需要转义
-//2. 自动删除公共空行
-//3. 方便计算
 let quotation = """
         "Even though there's whitespace to the left,"
         the actual lines aren't indented.
@@ -22,35 +19,12 @@ let quotation = """
         """
 print(quotation)
 
-let view = UIView()
-view.frame = CGRect(x:0, y:0, width:100, height: 100)
-view.backgroundColor = UIColor.blue
+//let
+    //  初始化后不可变 ->'age2' used before being initialized
+    let age:Int
+    //print(age)
+    age = 10
 
-//显示实时视图
-PlaygroundPage.current.liveView = view
-
-//不要求编译时期确定变量 常量 要求在使用前确定数值
-
-//常量
-let age1 = 10
-let age2:Float
-
-//Constant 'age2' used before being initialized
-//print(age2)
-
-age2 = 10
-
-func getAge() -> Int{
-    return 30
-}
-
-//Immutable value 'age2' may only be initialized once
-//age2 = getAge()
-
-// literal
-let bool = true
-let string = "hello world"
-let character:Character = "🐶" //Character 也使用单引号
 
 //为了对齐可以补0 _
 // 整数
@@ -84,7 +58,7 @@ let pi = Double(int12) + double12
 //字面量可以直接叠加
 let pi2 = 3 + 000_0.14
 
-//元组
+//tuple
 let http404Error = (404,"Not found")
 print("The status code is \(http404Error.0)")
 
@@ -97,7 +71,7 @@ let (justTheStatusCode,_) = http404Error
 let http200Status = (statusCode:200,description:"OK")
 print("The status code is \(http200Status.statusCode)")
 
-//Cannot convert value of type 'Int' to expected condition type 'Bool'
-//if 15{}
 
-
+//TypeAlias
+typealias AudioABC = UInt8
+let audio = AudioABC.max
