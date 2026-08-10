@@ -46,21 +46,34 @@ private enum StockCSVLoaderError: LocalizedError {
 public enum StockCSVLoader {
     public static func loadLatest() throws -> LoadedStockCSV {
         var lastError: Error?
+        var foundStockFolder = false
 
         for folderURL in stockFolderURLs() {
             do {
                 let latestFile = try latestDatedCSV(in: folderURL)
+                foundStockFolder = true
                 return LoadedStockCSV(
                     fileURL: latestFile.url,
                     fileDate: latestFile.date,
                     records: try records(fromCSVAt: latestFile.url)
                 )
             } catch {
+                if case StockCSVLoaderError.stockFolderNotFound = error {
+                    continue
+                }
+
+                foundStockFolder = true
                 lastError = error
             }
         }
 
-        throw lastError ?? StockCSVLoaderError.noDatedCSV("Stock")
+        if let lastError {
+            throw lastError
+        }
+
+        throw foundStockFolder
+            ? StockCSVLoaderError.noDatedCSV("Stock")
+            : StockCSVLoaderError.stockFolderNotFound("Stock")
     }
 
     private static func stockFolderURLs() -> [URL] {
@@ -217,9 +230,21 @@ public enum StockCSVLoader {
         in headers: [String],
         startingWith prefix: String
     ) throws -> Int {
-        guard let index = headers.firstIndex(where: {
-            normalizedCSVValue($0).hasPrefix(prefix)
+        try csvColumnIndex(in: headers, matchingAny: [prefix])
+    }
+
+    private static func csvColumnIndex(
+        in headers: [String],
+        matchingAny prefixes: [String]
+    ) throws -> Int {
+        let normalizedPrefixes = prefixes.map {
+            normalizedCSVValue($0).lowercased()
+        }
+        guard let index = headers.firstIndex(where: { header in
+            let normalizedHeader = normalizedCSVValue(header).lowercased()
+            return normalizedPrefixes.contains { normalizedHeader.hasPrefix($0) }
         }) else {
+            let prefix = prefixes.joined(separator: " / ")
             throw StockCSVLoaderError.missingColumn(prefix)
         }
         return index
@@ -243,16 +268,28 @@ public enum StockCSVLoader {
         let codeIndex = try csvColumnIndex(in: headers, startingWith: "股票代码")
         let nameIndex = try csvColumnIndex(in: headers, startingWith: "股票简称")
         let priceIndex = try csvColumnIndex(in: headers, startingWith: "现价(元)")
-        let dynamicPEIndex = try csvColumnIndex(in: headers, startingWith: "市盈率(pe)")
-        let peIndex = try csvColumnIndex(in: headers, startingWith: "市盈率(TTM)")
-        let pbIndex = try csvColumnIndex(in: headers, startingWith: "市净率")
+        let dynamicPEIndex = try csvColumnIndex(
+            in: headers,
+            matchingAny: ["市盈率(pe)", "最新动态市盈率"]
+        )
+        let peIndex = try csvColumnIndex(
+            in: headers,
+            matchingAny: ["市盈率(TTM)", "最新市盈率ttm"]
+        )
+        let pbIndex = try csvColumnIndex(
+            in: headers,
+            matchingAny: ["市净率", "最新市净率"]
+        )
         let percentIndex = try csvColumnIndex(
             in: headers,
-            startingWith: "((收盘价:不复权-区间最低价:前复权)/区间最低价:前复权)"
+            matchingAny: [
+                "((收盘价:不复权-区间最低价:前复权)/区间最低价:前复权)",
+                "(收盘价-最低价最小值)/最低价最小值"
+            ]
         )
         let intangibleAssetRatioIndex = try csvColumnIndex(
             in: headers,
-            startingWith: "(无形资产/资产总计)"
+            matchingAny: ["(无形资产/资产总计)", "无形资产/总资产"]
         )
         let debtAssetRatioIndex = try csvColumnIndex(
             in: headers,
