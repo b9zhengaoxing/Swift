@@ -1,7 +1,5 @@
 import Foundation
 
-private final class StockCSVBundleToken {}
-
 public struct StockCSVRecord {
     public let name: String
     public let code: Int
@@ -44,13 +42,13 @@ private enum StockCSVLoaderError: LocalizedError {
 }
 
 public enum StockCSVLoader {
-    public static func loadLatest() throws -> LoadedStockCSV {
+    public static func loadLatest(in folders: [URL]? = nil) throws -> LoadedStockCSV {
         var lastError: Error?
         var foundStockFolder = false
         var latestFile: (url: URL, date: Date, modifiedAt: Date)?
         var visitedFolderPaths = Set<String>()
 
-        for folderURL in stockFolderURLs() {
+        for folderURL in folders ?? stockFolderURLs() {
             let folderPath = folderURL.standardizedFileURL.path
             guard visitedFolderPaths.insert(folderPath).inserted else {
                 continue
@@ -102,26 +100,26 @@ public enum StockCSVLoader {
             folderURLs.append(URL(fileURLWithPath: customPath, isDirectory: true))
         }
 
-        if let sourceResourceURL = Bundle(for: StockCSVBundleToken.self).resourceURL {
-            folderURLs.append(
-                sourceResourceURL.appendingPathComponent("Stock", isDirectory: true)
-            )
-            folderURLs.append(sourceResourceURL)
-        }
+        let currentURL = URL(
+            fileURLWithPath: FileManager.default.currentDirectoryPath,
+            isDirectory: true
+        )
+        folderURLs.append(currentURL.appendingPathComponent("Stock", isDirectory: true))
+        folderURLs.append(
+            currentURL.deletingLastPathComponent()
+                .appendingPathComponent("Stock", isDirectory: true)
+        )
 
-        if let resourceURL = Bundle.main.resourceURL {
-            // Xcode 通常会保留 Stock 目录；部分 Playground 版本会扁平化资源。
-            folderURLs.append(resourceURL.appendingPathComponent("Stock", isDirectory: true))
-            folderURLs.append(resourceURL)
-        }
-
-        // StockCSVLoader.swift -> Sources -> Swift_Practice.playground
-        // -> 仓库根目录 -> Stock
-        var repositoryURL = URL(fileURLWithPath: #filePath)
+        // StockCSVLoader.swift -> StockAnalyzerCLI target -> Sources -> package root.
+        var packageURL = URL(fileURLWithPath: #filePath)
         for _ in 0..<3 {
-            repositoryURL.deleteLastPathComponent()
+            packageURL.deleteLastPathComponent()
         }
-        folderURLs.append(repositoryURL.appendingPathComponent("Stock", isDirectory: true))
+        folderURLs.append(packageURL.appendingPathComponent("Stock", isDirectory: true))
+        folderURLs.append(
+            packageURL.deletingLastPathComponent()
+                .appendingPathComponent("Stock", isDirectory: true)
+        )
         return folderURLs
     }
 
