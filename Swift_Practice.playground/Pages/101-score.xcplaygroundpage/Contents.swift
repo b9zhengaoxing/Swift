@@ -316,77 +316,39 @@ struct stockModel {
     }
 }
 
-//数据 //股票代码 name pe pb price percent
+// MARK: - 集思录数据源
 
-func getData() -> String{
-    return """
-600015        华夏银行    5200    2.35%    2,514.40    7.32%    36,868.00
-898        鞍钢股份    500    0.07%    -595.6    -36.75%    1,025.00
-600028        中国石化    400    0.13%    834.4    67.64%    2,068.00
-600050        中国联通    500    0.14%    801    56.85%    2,210.00
-401        金隅冀东    200    0.05%    -949.02    -56.59%    728
-600704        物产中大    500    0.16%    439.9    21.51%    2,485.00
-600655        豫园股份    200    0.06%    -592.1    -39.42%    910
-2091        江苏国泰    500    0.25%    296.99    8.31%    3,870.00
-600153        建发股份    100    0.06%    76    9.25%    898
-601006        大秦铁路    1400    0.44%    -1,404.10    -16.90%    6,902.00
-600483        福能股份    1100    0.78%    4,049.60    49.76%    12,188.00
-600064        南京高科    1400    0.69%    2,494.00    29.75%    10,878.00
-600000        浦发银行    1100    0.65%    3,171.10    45.06%    10,208.00
-581        威孚高科    200    0.22%    569    19.27%    3,522.00
-601163        三角轮胎    300    0.25%    165    4.41%    3,909.00
-601186        中国铁建    2100    0.85%    -783.1    -5.56%    13,293.00
-601668        中国建筑    2700    0.80%    80.76    0.65%    12,528.00
-600269        赣粤高速    2700    0.71%    -1,625.10    -12.80%    11,070.00
-726        鲁泰A    6000    2.28%    -3,053.00    -7.87%    35,760.00
-601319        中国人保    2900    1.37%    1,467.20    7.32%    21,518.00
-601601        中国太保    600    1.22%    684.6    3.71%    19,158.00
-2582        好想你    1100    0.72%    1,150.00    11.26%    11,363.00
-600861        北京人力    3500    3.03%    2,890.00    6.48%    47,460.00
-623        吉林敖东    2500    2.91%    1,235.50    2.78%    45,600.00
-2608        江苏国信    5000    2.33%    -1,072.00    -2.85%    36,500.00
-601318        中国平安    100    0.35%    358    7.06%    5,430.00
-600741        华域汽车    2300    2.43%    716.9    1.92%    38,111.00
-603368        柳药集团    2900    2.87%    -475.06    -1.05%    44,979.00
-601311        骆驼股份    5100    2.60%    3,053.00    8.11%    40,698.00
-603187        海容冷链    4000    3.13%    6,302.00    14.72%    49,120.00
-2736        国信证券    4400    2.86%    1,153.95    2.64%    44,924.00
-603689        皖天然气    6200    2.96%    -431    -0.92%    46,438.00
-2772        众兴菌业    4800    3.11%    4,070.20    9.10%    48,816.00
-"""
+let jisiluDataSource: LoadedJisiluXLS
+do {
+    jisiluDataSource = try JisiluXLSLoader.loadLatest()
+} catch {
+    fatalError("Jisilu data load failed: \(error.localizedDescription)")
 }
 
-//name pe pb percent 代码
-func translateData(rawData:String) -> [stockModel] {
-    // 将数据转换为数组
-    let lines = rawData.split(separator: "\n")
-    var stockDataList: [stockModel] = []
-    
-    for line in lines {
-        let components = line.split(separator: " ").filter { !$0.isEmpty }
-        if components.count == 7,
-           let value0 = Int(String(components[0])),
-           let value6 = Double(components[6].replacingOccurrences(of: ",", with: ""))//百分比
-        {
-            let stock = stockModel(
-                name: String(components[1]),
-                code: value0,
-                price: value6
-            )
-            stockDataList.append(stock)
-        }
-    }
-    return stockDataList
+let exportedAtFormatter: DateFormatter = {
+    let formatter = DateFormatter()
+    formatter.locale = Locale(identifier: "zh_CN")
+    formatter.timeZone = TimeZone(identifier: "Asia/Shanghai")
+    formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+    return formatter
+}()
+
+print(
+    "数据源：\(jisiluDataSource.fileURL.lastPathComponent)，" +
+    "导出时间：\(exportedAtFormatter.string(from: jisiluDataSource.metadata.exportedAt))，" +
+    "当前总资产：¥\(String(format: "%.2f", jisiluDataSource.metadata.currentTotalAssets))，" +
+    "持仓：\(jisiluDataSource.records.count) 只"
+)
+
+let stockArray = jisiluDataSource.records.map { record in
+    stockModel(
+        name: record.name,
+        code: record.code,
+        price: record.marketValue
+    )
 }
 
-//print("名称,股价,PETTM,PB,百分位,代码,行业,PE分数,PB分数,百分位分数,总分,当前标尺")
-//
-let stockData = getData()
-var stockArray:[stockModel] = []
-stockArray = translateData(rawData: stockData)
-
-var industryArray:[IndustryModel] = []
-industryArray = creatIndustryArray(rawData:stockArray)
+let industryArray = creatIndustryArray(rawData: stockArray)
 //for model in array{
 //    let newScore = newPePbScore(industry: model.industry)
 //    print("\(model.name),\(model.price),\(model.pe),\(model.pb),\(model.percent),\(model.code),\(model.industry),\(model.pe_score),\(model.pb_score),\(model.percent_score),\(model.total_score),\(newScore.peScore) \(newScore.pbScore)")
@@ -644,8 +606,7 @@ func printInvestmentPlans(currentValue: Double) {
     )
 }
 
-// 调用示例
-let totalStockValue = 1574609.01
+let totalStockValue = jisiluDataSource.metadata.currentTotalAssets
 
 printIndustryReport(
     industryArray: industryArray,
