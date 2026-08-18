@@ -144,7 +144,7 @@ struct StockScoreModel {
         Self.industry(for: code)
     }
 
-    var pe_score: Double {
+    private func peScore(for pe: Double) -> Double {
         let newScore = newPePbScore(industry: industry)
         let score: Double
 
@@ -158,6 +158,15 @@ struct StockScoreModel {
 
         // 保留两位小数
         return Double(String(format: "%.2f", score)) ?? 0.0
+    }
+
+    var pe_score: Double {
+        peScore(for: pe)
+    }
+
+    var dynamic_pe_score: Double? {
+        guard let dynamicPE else { return nil }
+        return peScore(for: dynamicPE)
     }
 
     var pb_score:Double{
@@ -181,6 +190,12 @@ struct StockScoreModel {
 
     var total_score:Double{
         let score = pe_score + pb_score + percent_score
+        return Double(String(format: "%.2f", score)) ?? 0.0
+    }
+
+    var dynamic_total_score: Double? {
+        guard let dynamic_pe_score else { return nil }
+        let score = dynamic_pe_score + pb_score + percent_score
         return Double(String(format: "%.2f", score)) ?? 0.0
     }
 

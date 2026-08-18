@@ -2,3 +2,26 @@
 /Swift_Practice.playground/Resources/Stock/
 /Jisilu/
 /Swift_Practice.playground/Resources/Jisilu/
+.DS_Store
+*.xcuserstate
+xcuserdata/
+*.xcscmblueprint
+
+# Local data repositories. Never upload portfolio data or screenshots.
+/repositories/
+/image/
+/Swift_Practice.playground/Resources/image/
+
+# Data exports and local screenshots.
+*.csv
+*.tsv
+*.xls
+*.xlsx
+*.jpg
+*.jpeg
+*.png
+*.heic
+*.heif
+*.tif
+*.tiff
+*.bmp

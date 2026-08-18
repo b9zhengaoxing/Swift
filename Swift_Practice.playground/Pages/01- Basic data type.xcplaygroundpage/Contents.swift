@@ -8,14 +8,18 @@ var d,c:Int
 //String
     //1. """ 中 "" 不需 转义
     //2. 自动delete 公共空行
+    //3. \  source easy to read not change print style
 
 let quotation = """
-        "Even though there's whitespace to the left,"
+        
+        "Even though there's whitespace \
+        to the left,"
         the actual lines aren't indented.
             Except for this line.
         Double quotes (") can appear without being escaped.
 
         I still have \(a + b) pieces of fruit.
+        
         """
 print(quotation)
 
@@ -75,3 +79,33 @@ print("The status code is \(http200Status.statusCode)")
 //TypeAlias
 typealias AudioABC = UInt8
 let audio = AudioABC.max
+
+
+//转义字符 \\ \n \" \'
+print(##"\n is \##("转义字符重新生效") "##)
+
+//String.indice
+var example = "hello,world"
+print(example[example.index(after:example.startIndex)])
+print(example[example.index(before:example.endIndex)])
+print(example[example.index(example.startIndex ,offsetBy: 4)])
+print(example[example.index(example.endIndex ,offsetBy: -3)])
+
+//for indice in example.indices{
+//    print(example[indice])
+//}
+
+
+//remove insert
+example.remove(at:example.startIndex)
+print(example)
+let range = example.index(example.startIndex, offsetBy:4)..<example.endIndex
+example.removeSubrange(range)
+print(example)
+example.insert(contentsOf: ",world", at: example.endIndex)
+print(example)
+
+//SubString
+var subIndex = example.firstIndex(of: ",") ?? example.endIndex
+var subString = example[..<subIndex]
+print(subString)

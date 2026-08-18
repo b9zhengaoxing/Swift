@@ -10,6 +10,11 @@ private struct PortfolioStock {
     }
 }
 
+struct PortfolioReportResult {
+    let holdings: [JisiluHoldingRecord]
+    let totalAssets: Double
+}
+
 private struct IndustryPosition {
     let name: String
     let stocks: [PortfolioStock]
@@ -19,15 +24,42 @@ private struct IndustryPosition {
     }
 }
 
-func runPortfolioReport(folderURL: URL?) throws {
+@discardableResult
+func runPortfolioReport(
+    folderURL: URL?,
+    title: String? = nil,
+    sourceNote: String? = nil,
+    printsInvestmentPlans: Bool = true
+) throws -> PortfolioReportResult {
     let source = try JisiluXLSLoader.loadLatest(
         in: folderURL.map { [$0] }
     )
+    return printPortfolioReport(
+        source: source,
+        title: title,
+        sourceNote: sourceNote,
+        printsInvestmentPlans: printsInvestmentPlans
+    )
+}
+
+@discardableResult
+func printPortfolioReport(
+    source: LoadedJisiluXLS,
+    title: String? = nil,
+    sourceNote: String? = nil,
+    printsInvestmentPlans: Bool = true
+) -> PortfolioReportResult {
     let exportedAtFormatter = DateFormatter()
     exportedAtFormatter.locale = Locale(identifier: "zh_CN")
     exportedAtFormatter.timeZone = TimeZone(identifier: "Asia/Shanghai")
     exportedAtFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
 
+    if let title {
+        print("\n" + String(repeating: "=", count: 20) + " \(title) " + String(repeating: "=", count: 20))
+    }
+    if let sourceNote {
+        print(sourceNote)
+    }
     print(
         "Jisilu 数据源：\(source.fileURL.path)，" +
         "导出时间：\(exportedAtFormatter.string(from: source.metadata.exportedAt))，" +
@@ -45,7 +77,13 @@ func runPortfolioReport(folderURL: URL?) throws {
         industries: industries,
         totalAssets: source.metadata.currentTotalAssets
     )
-    printInvestmentPlans(currentValue: source.metadata.currentTotalAssets)
+    if printsInvestmentPlans {
+        printInvestmentPlans(currentValue: source.metadata.currentTotalAssets)
+    }
+    return PortfolioReportResult(
+        holdings: source.records,
+        totalAssets: source.metadata.currentTotalAssets
+    )
 }
 
 private func printIndustryReport(

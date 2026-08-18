@@ -1,6 +1,7 @@
 import Foundation
 
-func runStockScoreReport(folderURL: URL?) throws {
+@discardableResult
+func runStockScoreReport(folderURL: URL?) throws -> [StockScoreModel] {
     let source = try StockCSVLoader.loadLatest(
         in: folderURL.map { [$0] }
     )
@@ -23,15 +24,16 @@ func runStockScoreReport(folderURL: URL?) throws {
 
     printScoreTable(models)
     printPositionPlans()
+    return models
 }
 
 private func printScoreTable(_ models: [StockScoreModel]) {
     let columns = [
-        "名称", "代码", "总分", "股价", "市盈率TTM", "市盈率动",
-        "标尺PE", "PE分数", "PB", "标尺PB", "PB分数", "百分位",
+        "名称", "代码", "总分TTM", "总分PE动", "股价", "市盈率TTM", "市盈率动",
+        "标尺PE", "PETTM分数", "PE动分数", "PB", "标尺PB", "PB分数", "百分位",
         "百分位分数", "无形资产占比", "资产负债率", "行业"
     ]
-    let widths = [10, 8, 8, 8, 10, 10, 8, 8, 6, 8, 8, 8, 12, 14, 12, 10]
+    let widths = [10, 8, 8, 10, 8, 10, 10, 8, 10, 10, 6, 8, 8, 8, 12, 14, 12, 10]
     let header = zip(columns, widths)
         .map { pad($0, to: $1) }
         .joined(separator: " | ")
@@ -40,24 +42,20 @@ private func printScoreTable(_ models: [StockScoreModel]) {
     print(String(repeating: "-", count: displayWidth(header)))
 
     for model in models {
-        guard !model.name.hasPrefix("ST"), !model.name.hasPrefix("*ST") else {
-            continue
-        }
-        guard model.total_score >= 260 else { continue }
-        if let ratio = model.intangibleAssetRatio, ratio > 0.20 {
-            continue
-        }
+        guard isEligibleInvestmentCandidate(model, minimumScore: 260) else { continue }
 
         let rule = newPePbScore(industry: model.industry)
         let row = [
             model.name,
             String(model.code),
             formatDecimal(model.total_score),
+            formatOptional(model.dynamic_total_score),
             formatDecimal(model.price),
             formatDecimal(model.pe),
             formatOptional(model.dynamicPE),
             formatDecimal(rule.peScore),
             formatDecimal(model.pe_score),
+            formatOptional(model.dynamic_pe_score),
             formatDecimal(model.pb),
             formatDecimal(rule.pbScore),
             formatDecimal(model.pb_score),

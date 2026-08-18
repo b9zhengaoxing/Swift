@@ -104,11 +104,17 @@ public enum JisiluXLSLoader {
         }
 
         // JisiluXLSLoader.swift -> Sources -> Swift_Practice.playground
-        // -> 仓库根目录 -> Jisilu
+        // -> 仓库根目录。优先读取新的双仓库结构，再兼容旧 Jisilu 目录。
         var repositoryURL = URL(fileURLWithPath: #filePath)
         for _ in 0..<3 {
             repositoryURL.deleteLastPathComponent()
         }
+        folderURLs.append(
+            repositoryURL
+                .appendingPathComponent("repositories", isDirectory: true)
+                .appendingPathComponent("mine", isDirectory: true)
+                .appendingPathComponent("Jisilu", isDirectory: true)
+        )
         folderURLs.append(repositoryURL.appendingPathComponent("Jisilu", isDirectory: true))
         return folderURLs
     }

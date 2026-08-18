@@ -50,12 +50,14 @@ public enum JisiluXLSLoader {
         var foundFolder = false
         var latestFile: (url: URL, date: Date, modifiedAt: Date)?
         var visitedFolderPaths = Set<String>()
+        var attemptedFolderPaths: [String] = []
 
         for folderURL in folders ?? folderURLs() {
             let folderPath = folderURL.standardizedFileURL.path
             guard visitedFolderPaths.insert(folderPath).inserted else {
                 continue
             }
+            attemptedFolderPaths.append(folderPath)
 
             do {
                 let candidate = try latestDatedXLS(in: folderURL)
@@ -93,8 +95,8 @@ public enum JisiluXLSLoader {
         }
 
         throw foundFolder
-            ? JisiluXLSLoaderError.noDatedXLS("Jisilu")
-            : JisiluXLSLoaderError.folderNotFound("Jisilu")
+            ? JisiluXLSLoaderError.noDatedXLS(attemptedFolderPaths.joined(separator: "，"))
+            : JisiluXLSLoaderError.folderNotFound(attemptedFolderPaths.joined(separator: "，"))
     }
 
     private static func folderURLs() -> [URL] {
@@ -108,7 +110,8 @@ public enum JisiluXLSLoader {
         let currentURL = URL(
             fileURLWithPath: FileManager.default.currentDirectoryPath,
             isDirectory: true
-        )
+        ).standardizedFileURL
+        folderURLs.append(contentsOf: repositoryJisiluFolders(startingAt: currentURL))
         folderURLs.append(currentURL.appendingPathComponent("Jisilu", isDirectory: true))
         folderURLs.append(
             currentURL.deletingLastPathComponent()
@@ -120,12 +123,40 @@ public enum JisiluXLSLoader {
         for _ in 0..<3 {
             packageURL.deleteLastPathComponent()
         }
+        if packageURL.path.hasPrefix("/") {
+            folderURLs.append(
+                packageURL.deletingLastPathComponent()
+                    .appendingPathComponent("repositories", isDirectory: true)
+                    .appendingPathComponent("mine", isDirectory: true)
+                    .appendingPathComponent("Jisilu", isDirectory: true)
+            )
+        }
         folderURLs.append(packageURL.appendingPathComponent("Jisilu", isDirectory: true))
         folderURLs.append(
             packageURL.deletingLastPathComponent()
                 .appendingPathComponent("Jisilu", isDirectory: true)
         )
         return folderURLs
+    }
+
+    private static func repositoryJisiluFolders(startingAt startURL: URL) -> [URL] {
+        var folders: [URL] = []
+        var currentURL = startURL
+
+        while true {
+            folders.append(
+                currentURL
+                    .appendingPathComponent("repositories", isDirectory: true)
+                    .appendingPathComponent("mine", isDirectory: true)
+                    .appendingPathComponent("Jisilu", isDirectory: true)
+            )
+
+            let parentURL = currentURL.deletingLastPathComponent()
+            if parentURL.path == currentURL.path {
+                return folders
+            }
+            currentURL = parentURL
+        }
     }
 
     private static func latestDatedXLS(
