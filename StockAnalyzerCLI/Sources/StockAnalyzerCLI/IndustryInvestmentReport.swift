@@ -98,14 +98,14 @@ func printIndustryInvestmentRecommendations(
     }
 
     let widths = [12, 10, 14, 14, 56]
-    let header = ["优先级", "行业", "可加投金额", "当前市值", "候选股票（分数从高到低）"]
+    let header = ["优先级", "行业", "可加投金额", "当前市值", "候选股票（总分TTM/PE动）"]
     print(zip(header, widths).map { pad($0, to: $1) }.joined(separator: " | "))
     let lineWidth = widths.reduce(0, +) + (widths.count - 1) * displayWidth(" | ")
     print(String(repeating: "-", count: lineWidth))
 
     for item in recommendations {
         let candidates = item.candidates.map {
-            "\($0.name)(\($0.code), \(formatDecimal($0.total_score))分)"
+            candidateScoreSummary($0)
         }.joined(separator: "；")
         let row = [
             item.isNewIndustry ? "无持仓行业" : "可加仓行业",
@@ -116,4 +116,8 @@ func printIndustryInvestmentRecommendations(
         ]
         print(zip(row, widths).map { pad($0, to: $1) }.joined(separator: " | "))
     }
+}
+
+func candidateScoreSummary(_ model: StockScoreModel) -> String {
+    "\(model.name)(\(model.code), TTM \(formatDecimal(model.total_score)) / PE动 \(formatOptional(model.dynamic_total_score)))"
 }

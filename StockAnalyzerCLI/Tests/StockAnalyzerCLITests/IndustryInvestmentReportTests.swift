@@ -50,17 +50,29 @@ struct IndustryInvestmentReportTests {
         #expect(recommendations.isEmpty)
     }
 
+    @Test func candidateSummaryShowsBothTotalScores() {
+        let scoredStock = stock(
+            name: "双分数",
+            code: 601601,
+            percent: 0.10,
+            dynamicPE: 12
+        )
+
+        #expect(candidateScoreSummary(scoredStock) == "双分数(601601, TTM 290.00 / PE动 240.00)")
+    }
+
     private func stock(
         name: String,
         code: Int,
         percent: Double,
+        dynamicPE: Double? = 1,
         intangibleAssetRatio: Double? = 0.05
     ) -> StockScoreModel {
         StockScoreModel(
             name: name,
             code: code,
             pe: 1,
-            dynamicPE: 1,
+            dynamicPE: dynamicPE,
             pb: 0.1,
             percent: percent,
             price: 10,
