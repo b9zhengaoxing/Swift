@@ -9,7 +9,7 @@ enum PortfolioRepository: String {
         case .mine:
             return "我的集思录"
         case .others:
-            return "别人的集思录"
+            return "关联账户"
         }
     }
 }
@@ -31,6 +31,15 @@ struct RepositoryLayout {
         root
             .appendingPathComponent(repository.rawValue, isDirectory: true)
             .appendingPathComponent("image", isDirectory: true)
+    }
+
+    /// Stores Jisilu exports received directly from other people.
+    /// Screenshot-generated XLS files remain in `others/Jisilu` so the two
+    /// sources do not overwrite or obscure each other.
+    func receivedJisiluFolder() -> URL {
+        root
+            .appendingPathComponent(PortfolioRepository.others.rawValue, isDirectory: true)
+            .appendingPathComponent("关联账户jisilu", isDirectory: true)
     }
 
     private static func repositoryRootURL() -> URL {

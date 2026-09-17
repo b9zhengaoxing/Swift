@@ -27,7 +27,7 @@ func makeIndustryInvestmentRecommendations(
     holdings: [JisiluHoldingRecord],
     totalAssets: Double,
     targetIndustryRatio: Double = 0.03,
-    minimumScore: Double = 270
+    minimumScore: Double = 260
 ) -> [IndustryInvestmentRecommendation] {
     guard totalAssets > 0, targetIndustryRatio > 0 else { return [] }
 
@@ -89,19 +89,19 @@ func printIndustryInvestmentRecommendations(
         totalAssets: totalAssets
     )
 
-    print("\n\(title)")
-    print("单个行业补足到账户总资产的 3%；列出行业内全部总分 >= 270 的合格股票供选择。")
+    reportPrint("\n\(title)")
+    reportPrint("单个行业补足到账户总资产的 3%；列出行业内全部总分 >= 260 的合格股票供选择。")
 
     guard !recommendations.isEmpty else {
-        print("当前没有同时满足行业可加投且股票总分 >= 270 的建议。")
+        reportPrint("当前没有同时满足行业可加投且股票总分 >= 260 的建议。")
         return
     }
 
     let widths = [12, 10, 14, 14, 56]
     let header = ["优先级", "行业", "可加投金额", "当前市值", "候选股票（总分TTM/PE动）"]
-    print(zip(header, widths).map { pad($0, to: $1) }.joined(separator: " | "))
+    reportPrint(zip(header, widths).map { pad($0, to: $1) }.joined(separator: " | "))
     let lineWidth = widths.reduce(0, +) + (widths.count - 1) * displayWidth(" | ")
-    print(String(repeating: "-", count: lineWidth))
+    reportPrint(String(repeating: "-", count: lineWidth))
 
     for item in recommendations {
         let candidates = item.candidates.map {
@@ -114,7 +114,7 @@ func printIndustryInvestmentRecommendations(
             "¥\(String(format: "%.0f", item.currentValue))",
             candidates
         ]
-        print(zip(row, widths).map { pad($0, to: $1) }.joined(separator: " | "))
+        reportPrint(zip(row, widths).map { pad($0, to: $1) }.joined(separator: " | "))
     }
 }
 

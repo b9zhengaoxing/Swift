@@ -51,6 +51,26 @@ struct LatestFileTests {
         #expect(loaded.records.first?.name == "新持仓")
     }
 
+    @Test func optionalJisiluLoaderReturnsNilForEmptyReceivedFolder() throws {
+        let root = try temporaryDirectory()
+        defer { try? FileManager.default.removeItem(at: root) }
+
+        let loaded = try JisiluXLSLoader.loadLatestIfPresent(in: [root])
+
+        #expect(loaded == nil)
+    }
+
+    @Test func repositoryLayoutSeparatesReceivedAndScreenshotGeneratedJisilu() {
+        let root = URL(fileURLWithPath: "/tmp/portfolio-test", isDirectory: true)
+        let layout = RepositoryLayout(root: root)
+
+        #expect(layout.receivedJisiluFolder().path == "/tmp/portfolio-test/others/关联账户jisilu")
+        #expect(
+            layout.receivedJisiluFolder().path !=
+                layout.jisiluFolder(for: .others).path
+        )
+    }
+
     @Test func jisiluImageImporterParsesScreenshotStyleOCRLines() throws {
         let exportedAt = try #require(date("2026/8/14 17:22:00"))
         let parsed = try JisiluImageImporter.parseOCRLines(

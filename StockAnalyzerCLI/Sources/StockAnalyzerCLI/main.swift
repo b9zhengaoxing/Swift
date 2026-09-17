@@ -17,6 +17,8 @@ private struct CLIOptions {
     var jisiluImageFolder: URL?
     var jisiluImage: URL?
     var showHelp = false
+    var generatesWebReport = true
+    var opensWebReport = false
 
     static func parse(_ arguments: [String]) throws -> CLIOptions {
         var options = CLIOptions()
@@ -31,6 +33,14 @@ private struct CLIOptions {
             switch arguments[index] {
             case "-h", "--help":
                 options.showHelp = true
+                index += 1
+            case "--no-web":
+                options.generatesWebReport = false
+                options.opensWebReport = false
+                index += 1
+            case "--open-web":
+                options.generatesWebReport = true
+                options.opensWebReport = true
                 index += 1
             case "--stock-dir":
                 guard arguments.indices.contains(index + 1) else {
@@ -109,10 +119,14 @@ private func printHelp() {
       stock-analyzer import-latest-jisilu-image [--image-dir PATH] [--jisilu-dir PATH]
       stock-analyzer import-jisilu-image --image PATH [--jisilu-dir PATH]
 
+    所有分析命令默认生成本地网页报告，但不自动打开；传入 --open-web 可生成并打开，
+    传入 --no-web 可完全关闭网页报告生成。
+
     直接从工程运行、不传任何参数时，默认执行 repositories：
     先运行原有股票分析，再读取 repositories/mine/Jisilu 最新 XLS 并打印投资预测；
-    最后读取 repositories/others/image 最新截图，生成到 repositories/others/Jisilu，
-    只打印别人的持仓报告，不对别人的资产做投资预测。
+    然后读取 repositories/others/关联账户jisilu 中收到的最新 XLS；
+    最后读取 repositories/others/image 最新截图，生成到 repositories/others/Jisilu。
+    关联账户的两种数据来源都打印持仓和行业加投建议，但不做 500万/1000万目标规划。
     portfolio/all 不传 --jisilu-dir 时，默认读取 repositories/mine/Jisilu。
     import-latest-jisilu-image 不传目录时，默认读取 repositories/others/image，
     并生成到 repositories/others/Jisilu。
@@ -126,6 +140,7 @@ do {
         exit(EXIT_SUCCESS)
     }
 
+    ReportOutput.shared.reset()
     switch options.command {
     case .repositories:
         let layout = RepositoryLayout.default
@@ -139,7 +154,7 @@ do {
             in: [options.jisiluImageFolder ?? layout.imageFolder(for: .others)],
             outputFolder: options.jisiluFolder ?? layout.jisiluFolder(for: .others)
         )
-        print(
+        reportPrint(
             "已从最新截图生成 Jisilu XLS：" +
             "对方：\(result.ownerName)，" +
             "数据日期：\(formattedSourceDate(result.sourceModifiedAt))，" +
@@ -159,7 +174,7 @@ do {
     case .all:
         let layout = RepositoryLayout.default
         let scoredStocks = try runStockScoreReport(folderURL: options.stockFolder)
-        print("\n" + String(repeating: "=", count: 100) + "\n")
+        reportPrint("\n" + String(repeating: "=", count: 100) + "\n")
         let portfolio = try runPortfolioReport(
             folderURL: resolvedMineJisiluFolder(options.jisiluFolder, layout: layout),
             title: PortfolioRepository.mine.title
@@ -178,13 +193,24 @@ do {
             at: imageURL,
             outputFolder: options.jisiluFolder ?? layout.jisiluFolder(for: .others)
         )
-        print(
+        reportPrint(
             "已生成 Jisilu XLS：对方：\(result.ownerName)，" +
             "数据日期：\(formattedSourceDate(result.sourceModifiedAt))，" +
             "输出：\(result.fileURL.path)，" +
             "当前总资产：¥\(String(format: "%.2f", result.metadata.currentTotalAssets))，" +
             "持仓：\(result.records.count) 只"
         )
+    }
+
+    if options.generatesWebReport, !ReportOutput.shared.text.isEmpty {
+        let reportURL = try WebReport.create(
+            report: ReportOutput.shared.text,
+            command: options.command.rawValue
+        )
+        if options.opensWebReport {
+            try WebReport.openInBrowser(reportURL)
+        }
+        print("网页报告：\(reportURL.path)")
     }
 } catch {
     FileHandle.standardError.write(Data("错误：\(error.localizedDescription)\n".utf8))
@@ -196,7 +222,7 @@ private func runTwoRepositoryPortfolioReports(
     stockFolder: URL?
 ) throws {
     let scoredStocks = try runStockScoreReport(folderURL: stockFolder)
-    print("\n" + String(repeating: "=", count: 100) + "\n")
+    reportPrint("\n" + String(repeating: "=", count: 100) + "\n")
 
     let mineFolder = layout.jisiluFolder(for: .mine)
     let minePortfolio = try runPortfolioReport(
@@ -212,7 +238,29 @@ private func runTwoRepositoryPortfolioReports(
         title: "我的行业加投建议"
     )
 
-    print("\n" + String(repeating: "=", count: 100) + "\n")
+    reportPrint("\n" + String(repeating: "=", count: 100) + "\n")
+
+    let receivedJisiluFolder = layout.receivedJisiluFolder()
+    if let receivedSource = try JisiluXLSLoader.loadLatestIfPresent(
+        in: [receivedJisiluFolder]
+    ) {
+        let receivedPortfolio = printPortfolioReport(
+            source: receivedSource,
+            title: "关联账户（集思录 Excel，最新）",
+            sourceNote: "收件目录：\(receivedJisiluFolder.path)",
+            printsInvestmentPlans: false
+        )
+        printIndustryInvestmentRecommendations(
+            scoredStocks: scoredStocks,
+            holdings: receivedPortfolio.holdings,
+            totalAssets: receivedPortfolio.totalAssets,
+            title: "关联账户（Excel）的行业加投建议"
+        )
+        reportPrint("\n" + String(repeating: "-", count: 100) + "\n")
+    } else {
+        reportPrint("关联账户集思录 Excel：\(receivedJisiluFolder.path) 暂无可读取的 XLS，本次跳过。")
+        reportPrint("\n" + String(repeating: "-", count: 100) + "\n")
+    }
 
     let othersImageFolder = layout.imageFolder(for: .others)
     let othersJisiluFolder = layout.jisiluFolder(for: .others)
@@ -228,7 +276,7 @@ private func runTwoRepositoryPortfolioReports(
     )
     let othersPortfolio = printPortfolioReport(
         source: loadedOthers,
-        title: "\(PortfolioRepository.others.title)（\(imported.ownerName)）",
+        title: "\(PortfolioRepository.others.title)（最新截图：\(imported.ownerName)）",
         sourceNote: "对方：\(imported.ownerName)\n" +
             "数据日期：\(formattedSourceDate(imported.sourceModifiedAt))（图片修改时间）\n" +
             "图片源：\(imported.sourceImageURL.path)\n" +
@@ -239,7 +287,7 @@ private func runTwoRepositoryPortfolioReports(
         scoredStocks: scoredStocks,
         holdings: othersPortfolio.holdings,
         totalAssets: othersPortfolio.totalAssets,
-        title: "别人的行业加投建议"
+        title: "关联账户（截图）的行业加投建议"
     )
 }
 

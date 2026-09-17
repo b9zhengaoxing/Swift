@@ -55,12 +55,12 @@ func printPortfolioReport(
     exportedAtFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
 
     if let title {
-        print("\n" + String(repeating: "=", count: 20) + " \(title) " + String(repeating: "=", count: 20))
+        reportPrint("\n" + String(repeating: "=", count: 20) + " \(title) " + String(repeating: "=", count: 20))
     }
     if let sourceNote {
-        print(sourceNote)
+        reportPrint(sourceNote)
     }
-    print(
+    reportPrint(
         "Jisilu 数据源：\(source.fileURL.path)，" +
         "导出时间：\(exportedAtFormatter.string(from: source.metadata.exportedAt))，" +
         "当前总资产：¥\(String(format: "%.2f", source.metadata.currentTotalAssets))，" +
@@ -92,38 +92,52 @@ private func printIndustryReport(
 ) {
     let sorted = industries.sorted { $0.totalValue > $1.totalValue }
     var grandTotal = 0.0
+    let industryWidths = [10, 8, 12, 12, 80]
 
-    print("\n行业      占比     需投入       总价        股票明细")
-    print("------------------------------------------------------------")
+    func printIndustryRow(_ row: [String]) {
+        reportPrint(zip(row, industryWidths).map { pad($0, to: $1) }.joined(separator: " | "))
+    }
+
+    reportPrint("")
+    printIndustryRow(["行业", "占比", "需投入", "总价", "股票明细"])
+    let industryLineWidth = industryWidths.reduce(0, +) +
+        (industryWidths.count - 1) * displayWidth(" | ")
+    reportPrint(String(repeating: "-", count: industryLineWidth))
 
     for industry in sorted {
-        let paddedName = industry.name.count < 4
-            ? industry.name + String(repeating: "　", count: 4 - industry.name.count)
-            : industry.name
         let ratio = industry.totalValue / totalAssets * 100
         let needInvest = totalAssets * 0.03 - industry.totalValue
         let details = industry.stocks.map {
             "\($0.name)(\($0.code)) ¥\(String(format: "%.0f", $0.marketValue))"
         }.joined(separator: "；")
 
-        print(
-            "\(paddedName)  " +
-            "\(String(format: "%5.2f%%", ratio)) " +
-            "\(String(format: "%10.0f", needInvest)) " +
-            "\(String(format: "%10.0f", industry.totalValue))  " +
+        printIndustryRow([
+            industry.name,
+            String(format: "%.2f%%", ratio),
+            String(format: "%.0f", needInvest),
+            String(format: "%.0f", industry.totalValue),
             details
-        )
+        ])
         grandTotal += industry.totalValue
     }
 
-    print("------------------------------------------------------------")
     let stockCount = sorted.reduce(0) { $0 + $1.stocks.count }
-    print(
-        "行业：\(sorted.count) 个  股票：\(stockCount)  " +
-        "总市值：¥\(String(format: "%.2f", grandTotal))  " +
-        "账户总值：¥\(String(format: "%.2f", totalAssets))  " +
-        "仓位比例：\(String(format: "%.2f%%", grandTotal / totalAssets * 100))"
-    )
+    let summaryWidths = [10, 10, 16, 16, 12]
+    func printSummaryRow(_ row: [String]) {
+        reportPrint(zip(row, summaryWidths).map { pad($0, to: $1) }.joined(separator: " | "))
+    }
+    reportPrint("")
+    printSummaryRow(["行业数量", "股票数量", "总市值", "账户总值", "仓位比例"])
+    let summaryLineWidth = summaryWidths.reduce(0, +) +
+        (summaryWidths.count - 1) * displayWidth(" | ")
+    reportPrint(String(repeating: "-", count: summaryLineWidth))
+    printSummaryRow([
+        "\(sorted.count) 个",
+        "\(stockCount) 只",
+        "¥\(String(format: "%.2f", grandTotal))",
+        "¥\(String(format: "%.2f", totalAssets))",
+        String(format: "%.2f%%", grandTotal / totalAssets * 100)
+    ])
 }
 
 private func printInvestmentPlans(currentValue: Double) {
@@ -160,10 +174,17 @@ private func printInvestmentPlans(currentValue: Double) {
     }
 
     func printPlan(title: String, initial: Double, target: Double, description: String) {
-        print("\n\(title)")
-        print(description)
-        print("\n年化收益率  月投0万     月投2万     月投3万     月投4万     月投4.5万")
-        print("-------------------------------------------------------------------")
+        reportPrint("\n\(title)")
+        reportPrint(description)
+        let widths = [12, 12, 12, 12, 12, 12]
+        func printRow(_ row: [String]) {
+            reportPrint(zip(row, widths).map { pad($0, to: $1) }.joined(separator: " | "))
+        }
+
+        reportPrint("")
+        printRow(["年化收益率", "月投0万", "月投2万", "月投3万", "月投4万", "月投4.5万"])
+        let lineWidth = widths.reduce(0, +) + (widths.count - 1) * displayWidth(" | ")
+        reportPrint(String(repeating: "-", count: lineWidth))
         for rate in annualRates {
             let durations = monthlyInvestments.map {
                 duration(requiredMonths(
@@ -173,7 +194,7 @@ private func printInvestmentPlans(currentValue: Double) {
                     monthlyInvestment: $0
                 ))
             }
-            print("\(String(format: "%5.1f%%", rate * 100))      " + durations.joined(separator: "    "))
+            printRow([String(format: "%.1f%%", rate * 100)] + durations)
         }
     }
 

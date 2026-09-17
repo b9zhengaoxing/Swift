@@ -45,6 +45,17 @@ private enum JisiluXLSLoaderError: LocalizedError {
 }
 
 public enum JisiluXLSLoader {
+    /// Returns `nil` when none of the supplied folders contains a dated XLS.
+    /// A file that exists but cannot be parsed still throws a useful error.
+    public static func loadLatestIfPresent(in folders: [URL]) throws -> LoadedJisiluXLS? {
+        do {
+            return try loadLatest(in: folders)
+        } catch JisiluXLSLoaderError.folderNotFound,
+                JisiluXLSLoaderError.noDatedXLS {
+            return nil
+        }
+    }
+
     public static func loadLatest(in folders: [URL]? = nil) throws -> LoadedJisiluXLS {
         var lastError: Error?
         var foundFolder = false

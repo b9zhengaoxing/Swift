@@ -6,7 +6,7 @@ func runStockScoreReport(folderURL: URL?) throws -> [StockScoreModel] {
         in: folderURL.map { [$0] }
     )
 
-    print("Stock 数据源：\(source.fileURL.path)，共 \(source.records.count) 条")
+    reportPrint("Stock 数据源：\(source.fileURL.path)，共 \(source.records.count) 条")
 
     let models = source.records.map { record in
         StockScoreModel(
@@ -38,8 +38,8 @@ private func printScoreTable(_ models: [StockScoreModel]) {
         .map { pad($0, to: $1) }
         .joined(separator: " | ")
 
-    print(header)
-    print(String(repeating: "-", count: displayWidth(header)))
+    reportPrint(header)
+    reportPrint(String(repeating: "-", count: displayWidth(header)))
 
     for model in models {
         guard isEligibleInvestmentCandidate(model, minimumScore: 260) else { continue }
@@ -65,7 +65,7 @@ private func printScoreTable(_ models: [StockScoreModel]) {
             formatOptional(model.debtAssetRatio),
             model.industry
         ]
-        print(zip(row, widths).map { pad($0, to: $1) }.joined(separator: " | "))
+        reportPrint(zip(row, widths).map { pad($0, to: $1) }.joined(separator: " | "))
     }
 }
 
@@ -95,20 +95,20 @@ private func printPositionPlans() {
     let widths = [12, 16, 16, 16, 16, 16]
 
     func printRow(_ row: [String]) {
-        print(zip(row, widths).map { pad($0, to: $1) }.joined(separator: " | "))
+        reportPrint(zip(row, widths).map { pad($0, to: $1) }.joined(separator: " | "))
     }
 
-    print("\n仓位配置表")
-    print("\n方案说明")
+    reportPrint("\n仓位配置表")
+    reportPrint("\n方案说明")
     printRow(["项目", "方案一", "方案二", "方案三", "方案四", "方案五"])
     printRow(["起始仓位", "4200点 30%", "4200点 30%", "4200点 0%", "4200点 0%", "4200点 50%"])
     printRow(["目标仓位", "3000点 90%", "2200点 90%", "2100点 100%", "3000点 90%", "3000点 90%"])
     printRow(["每跌100点", "+5.00%", "+3.00%", "+4.75%", "+7.50%", "+3.33%"])
 
-    print("\n仓位变化")
+    reportPrint("\n仓位变化")
     printRow(["点位", "方案一", "方案二", "方案三", "方案四", "方案五"])
     let lineWidth = widths.reduce(0, +) + (widths.count - 1) * displayWidth(" | ")
-    print(String(repeating: "-", count: lineWidth))
+    reportPrint(String(repeating: "-", count: lineWidth))
 
     for point in stride(from: 4200, through: 3000, by: -100) {
         printRow(

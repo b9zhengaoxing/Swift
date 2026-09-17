@@ -38,7 +38,7 @@ The default `stock-analyzer` command runs the two-repository flow: stock scoring
 - My Jisilu data is used for asset target planning.
 - Other-person Jisilu data is only used for portfolio and industry recommendation reports, not 500万/1000万 target planning.
 - Industry add-investment target is currently 3% of total assets per industry.
-- Qualified add-investment candidates require total score >= 270, exclude `ST` / `*ST`, and exclude intangible asset ratio above 20%.
+- Qualified add-investment candidates require total score >= 260, exclude `ST` / `*ST`, and exclude intangible asset ratio above 20%.
 - Stock score output currently prints candidates with minimum score 260.
 - The large industry mapping in `StockScoring.swift` is business data. Avoid casual cleanup or reformatting unless the task is explicitly about that mapping.
 

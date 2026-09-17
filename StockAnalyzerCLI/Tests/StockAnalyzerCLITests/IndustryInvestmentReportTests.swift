@@ -7,7 +7,7 @@ struct IndustryInvestmentReportTests {
             stock(name: "保险甲", code: 601601, percent: 0.10),
             stock(name: "保险乙", code: 601318, percent: 0.30),
             stock(name: "银行甲", code: 601997, percent: 0.15),
-            stock(name: "不足270", code: 601319, percent: 0.31),
+            stock(name: "刚好260", code: 601319, percent: 0.40),
             stock(name: "电力甲", code: 2608, percent: 0.15)
         ]
         let holdings = [
@@ -25,8 +25,8 @@ struct IndustryInvestmentReportTests {
         #expect(recommendations[0].industry == "保险")
         #expect(recommendations[0].isNewIndustry)
         #expect(recommendations[0].investmentAmount == 30_000)
-        #expect(recommendations[0].candidates.map(\.name) == ["保险甲", "保险乙"])
-        #expect(recommendations[0].candidates.map(\.total_score) == [290, 270])
+        #expect(recommendations[0].candidates.map(\.name) == ["保险甲", "保险乙", "刚好260"])
+        #expect(recommendations[0].candidates.map(\.total_score) == [290, 270, 260])
 
         #expect(recommendations[1].industry == "银行")
         #expect(!recommendations[1].isNewIndustry)
