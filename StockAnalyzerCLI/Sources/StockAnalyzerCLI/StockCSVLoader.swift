@@ -288,7 +288,14 @@ public enum StockCSVLoader {
 
         let codeIndex = try csvColumnIndex(in: headers, startingWith: "股票代码")
         let nameIndex = try csvColumnIndex(in: headers, startingWith: "股票简称")
-        let priceIndex = try csvColumnIndex(in: headers, startingWith: "现价(元)")
+        let priceIndex = try csvColumnIndex(
+            in: headers,
+            matchingAny: [
+                "现价(元)",
+                "收盘价:前复权",
+                "收盘价_前复权"
+            ]
+        )
         let dynamicPEIndex = try csvColumnIndex(
             in: headers,
             matchingAny: ["市盈率(pe)", "最新动态市盈率"]

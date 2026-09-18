@@ -27,6 +27,26 @@ struct LatestFileTests {
         #expect(loaded.records.first?.name == "新数据")
     }
 
+    @Test func stockLoaderAcceptsClosingPriceWhenCurrentPriceIsMissing() throws {
+        let root = try temporaryDirectory()
+        defer { try? FileManager.default.removeItem(at: root) }
+
+        try stockCSV(
+            name: "新表头数据",
+            code: "000003",
+            priceHeader: "收盘价:前复权(元) 2026.09.17"
+        ).write(
+            to: root.appendingPathComponent("问财选股_2026-09-17_1条.csv"),
+            atomically: true,
+            encoding: .utf8
+        )
+
+        let loaded = try StockCSVLoader.loadLatest(in: [root])
+
+        #expect(loaded.records.first?.name == "新表头数据")
+        #expect(loaded.records.first?.price == 10)
+    }
+
     @Test func jisiluLoaderChoosesNewestFileAcrossFolders() throws {
         let root = try temporaryDirectory()
         defer { try? FileManager.default.removeItem(at: root) }
@@ -140,9 +160,13 @@ struct LatestFileTests {
         return url
     }
 
-    private func stockCSV(name: String, code: String) -> String {
+    private func stockCSV(
+        name: String,
+        code: String,
+        priceHeader: String = "现价(元)"
+    ) -> String {
         """
-        股票代码,股票简称,现价(元),市盈率(pe),市盈率(TTM),市净率,((收盘价:不复权-区间最低价:前复权)/区间最低价:前复权),(无形资产/资产总计),资产负债率(%)
+        股票代码,股票简称,\(priceHeader),市盈率(pe),市盈率(TTM),市净率,((收盘价:不复权-区间最低价:前复权)/区间最低价:前复权),(无形资产/资产总计),资产负债率(%)
         \(code),\(name),10,8,7,0.8,0.1,0.05,20
         """
     }
